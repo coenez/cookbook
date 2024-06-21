@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,24 @@ class Recipe
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'variations')]
+    private ?self $parent = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
+    private Collection $variations;
+
+    #[ORM\ManyToOne(inversedBy: 'recipes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
+    public function __construct()
+    {
+        $this->variations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +125,60 @@ class Recipe
     public function setCreated(\DateTimeInterface $created): static
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): static
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getVariations(): Collection
+    {
+        return $this->variations;
+    }
+
+    public function addVariation(self $variation): static
+    {
+        if (!$this->variations->contains($variation)) {
+            $this->variations->add($variation);
+            $variation->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariation(self $variation): static
+    {
+        if ($this->variations->removeElement($variation)) {
+            // set the owning side to null (unless already changed)
+            if ($variation->getParent() === $this) {
+                $variation->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

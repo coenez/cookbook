@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Recipe;
+use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -14,7 +15,8 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
     protected Faker\Generator $faker;
 
     public function __construct(
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly CategoryRepository $categoryRepository
     ){}
 
     /**
@@ -23,12 +25,13 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
      */
     public function getDependencies(): array
     {
-        return [UserFixtures::class];
+        return [UserFixtures::class, CategoryFixtures::class];
     }
 
     public function load(ObjectManager $manager): void
     {
         $users = $this->userRepository->findAll();
+        $categories = $this->categoryRepository->findAll();
         $this->faker = Faker\Factory::create();
 
         for($i = 0; $i < $this->faker->numberBetween(10, 20); $i++) {
@@ -36,6 +39,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
             $recipe = new Recipe();
             $recipe->setName($title);
             $recipe->setSlug($title);
+            $recipe->setCategory($this->faker->randomElement($categories));
             $recipe->setPreparation($this->faker->text(350));
             $recipe->setDuration($this->faker->numberBetween(15, 120));
             $recipe->setPortions($this->faker->numberBetween(2, 8));
