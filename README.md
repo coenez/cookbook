@@ -3,6 +3,33 @@ This is a practice project to learn symfony, vue and vuetify.
 The application contains a recipe book where users can submit their recipes 
 and like recipes from other users. Functionalities will expand over time.
 
+A recipe consists of: 
+- ingredients and their amount
+- portion amount
+- preparation description
+- duration in minutes
+- labels
+- variations
+- suggestions
+- likes
+
+A recipe kan have child recipes. These are the variations
+A recipe kan have suggestions. 
+A suggestion can be global for parent and child display
+
+# Functional requirements
+- search recipes by ingredients
+- search recipes by name
+- search recipes by category
+- search recipes by labels
+- user can create an account
+- user needs to verify the account to access crud
+- verified user can crud recipes 
+- any user can change portions to recalculate ingredients
+- verified user can like a recipe, but not its own
+- verified user can add a suggestion to his own recipes
+- 
+
 ## Stack
 - Symfony
 - Vite
@@ -10,8 +37,9 @@ and like recipes from other users. Functionalities will expand over time.
 - Vue3 
 - Vuetify
 
-## Data structure
+# Data structure
 - id
+- parent_id (a child recipe is a variation)
 - name
 - category (int one to many)
 - ingredients (many to one? + counter in column?)
@@ -25,6 +53,7 @@ and like recipes from other users. Functionalities will expand over time.
 
 ### recipe
 - id (PK AI)
+- parent
 - name 
 - slug 
 - category
@@ -47,6 +76,12 @@ and like recipes from other users. Functionalities will expand over time.
 - id
 - name
 - slug
+
+### suggestion
+- id
+- recipe
+- global
+- text
 
 ### recipe_ingredient (connection to ingredient + amount)
 - recipe_id
