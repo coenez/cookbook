@@ -14,8 +14,8 @@
       <router-link :to="{name:'home'}" >
         <v-btn prepend-icon="mdi-home" color="buttonText">Home</v-btn>
       </router-link>
-      <router-link to="/page1" activeClass="border-indigo-500">
-        <v-btn prepend-icon="mdi-plus" color="buttonText">page1</v-btn>
+      <router-link :to="{name:'categoryList'}" activeClass="border-indigo-500">
+        <v-btn prepend-icon="mdi-plus" color="buttonText">Category</v-btn>
       </router-link>
 
 
