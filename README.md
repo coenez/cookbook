@@ -13,8 +13,10 @@ A recipe consists of:
 - suggestions
 - likes
 
-A recipe kan have child recipes. These are the variations
-A recipe kan have suggestions. 
+A recipe can have child recipes. These are the variations
+
+A recipe can have suggestions.
+
 A suggestion can be global for parent and child display
 
 # Functional requirements
@@ -41,7 +43,7 @@ A suggestion can be global for parent and child display
 - id
 - parent_id (a child recipe is a variation)
 - name
-- category (int one to many)
+- category (int many to one)
 - ingredients (many to one? + counter in column?)
 - preparation
 - duration

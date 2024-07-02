@@ -1,18 +1,11 @@
 <script setup>
 
-import { ref } from 'vue'
-
-const message = ref('Hello World!')
-const count = ref(0);
-const increase = () => { count.value ++;}
+import MainLayout from "./Pages/Layouts/MainLayout.vue";
+import Test from "./Component/Test.vue";
 
 </script>
 
 <template>
-  <div>{{message}}</div>
-  <button @click="increase()">Click {{ count }}</button>
+  <!--<Test></Test>-->
+  <MainLayout></MainLayout>
 </template>
-
-<style scoped>
-
-</style>
