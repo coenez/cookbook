@@ -5,8 +5,8 @@
 </script>
 
 <template>
-  <v-layout ref="app" class="rounded rounded-md">
-    <v-app-bar color="primary" name="app-bar">
+  <v-layout ref="app">
+    <v-app-bar flat color="primary" name="app-bar">
 
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-app-bar-title>CookBook</v-app-bar-title>
@@ -20,16 +20,11 @@
 
 
       <v-btn prepend-icon="mdi-pencil">Page test 2</v-btn>
-
       <v-spacer></v-spacer>
-
       <v-btn prepend-icon="mdi-magnify">Search</v-btn>
-
     </v-app-bar>
 
-
-
-    <v-main class="d-flex justify-center" style="min-height: 300px;">
+    <v-main class="justify-center px-5 mt-5" style="min-height: 300px;">
       <RouterView />
     </v-main>
 
