@@ -33,7 +33,6 @@ function deleteItem (item) {
 }
 
 function loadItems() {
-  console.log(sortBy.value[0]);
   axios.get(getConfig('urls.category.list'),{
     params: {
       orderBy: sortBy.value[0]?.key + '|' + sortBy.value[0]?.order,
