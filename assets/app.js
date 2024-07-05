@@ -22,8 +22,8 @@ const vuetify= createVuetify({
             light: {
                 dark: false,
                 colors: {
-                    primary: colors.blue.darken2,
-                    secondary: colors.green.darken2,
+                    primary: colors.teal.darken2,
+                    secondary: colors.deepOrange.darken2,
                     text: colors.blueGrey.darken3,
                     buttonText: colors.shades.white
                 }

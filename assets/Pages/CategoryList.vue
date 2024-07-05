@@ -26,11 +26,32 @@ const headers = [
   },
 ];
 
+const activeRecord = ref(null);
+const activeIndex = ref(0);
+
 function editItem (item) {
-  console.log(item)
+  dialog.value = true
+  activeIndex.value = data.value.indexOf(item)
+  activeRecord.value = Object.assign({}, item)
 }
+
 function deleteItem (item) {
   console.log(item)
+}
+
+function save() {
+  if (activeIndex.value > -1) {
+    //existing record
+    Object.assign(data.value[activeIndex.value], activeRecord.value)
+  } else {
+      data.value.push(activeRecord)
+  }
+  close();
+}
+
+function close() {
+  activeIndex.value = -1;
+  dialog.value = false;
 }
 
 function loadItems() {
@@ -49,7 +70,8 @@ function loadItems() {
 </script>
 
 <template>
-  <v-card title="CategoryList" flat>
+  <v-card flat>
+    <v-card-title class="text-primary" >Categorieen</v-card-title>
     <v-data-table-server
         v-model:items-per-page="pageSize"
         v-model:sort-by="sortBy"
@@ -66,23 +88,29 @@ function loadItems() {
       </template>
     </v-data-table-server>
 
-    <v-dialog v-model="dialog" max-width="500px">
-      <v-card
-          max-width="400"
-          prepend-icon="mdi-update"
-          text="Your application will relaunch automatically after the update is complete."
-          title="Update in progress"
-      >
-        <template v-slot:actions>
-          <v-btn
-              class="ms-auto"
-              text="Ok"
-              @click="dialog = false"
-          ></v-btn>
-        </template>
+    <!--FORM-->
+    <v-dialog v-model="dialog">
+      <v-card>
+        <v-card-title class="bg-primary" color="buttonText">formtest</v-card-title>
+
+        <v-card-text>
+          <v-form @submit.prevent>
+            <v-row>
+              <v-col>
+                <v-text-field label="Name" v-model="activeRecord.name"></v-text-field>
+                <v-text-field label="Slug" v-model="activeRecord.slug"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row justify="center">
+              <v-col cols="4">
+                <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="save" >Submit</v-btn>
+                <v-btn variant="outlined" type="cancel" @click="close">cancel</v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
       </v-card>
     </v-dialog>
-
   </v-card>
 </template>
 
