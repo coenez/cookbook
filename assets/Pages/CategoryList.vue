@@ -1,9 +1,10 @@
 <script setup>
 import axios from 'axios';
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 
 const pageSize = 5;
-const categories = ref([]);
+const data = ref([]);
+const dialog = ref(false);
 const totalItems = ref(0);
 const loading = ref(true);
 const sortBy = ref([{ key: 'name', order: 'asc' }])
@@ -33,19 +34,17 @@ function deleteItem (item) {
 }
 
 function loadItems() {
-  axios.get(getConfig('urls.category.list'),{
+  axios.get(getConfig('urls.category.list'), {
     params: {
       orderBy: sortBy.value[0]?.key + '|' + sortBy.value[0]?.order,
       limit: pageSize,
     }
   }).then(response => {
-    categories.value = response.data;
+    data.value = response.data;
     totalItems.value = response.data?.length;
     loading.value = false;
   })
 }
-
-onMounted(loadItems)
 
 </script>
 
@@ -55,7 +54,7 @@ onMounted(loadItems)
         v-model:items-per-page="pageSize"
         v-model:sort-by="sortBy"
         :headers="headers"
-        :items="categories"
+        :items="data"
         :items-length="totalItems"
         :loading="loading"
         item-value="id"
@@ -66,6 +65,23 @@ onMounted(loadItems)
         <v-icon size="small" @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table-server>
+
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card
+          max-width="400"
+          prepend-icon="mdi-update"
+          text="Your application will relaunch automatically after the update is complete."
+          title="Update in progress"
+      >
+        <template v-slot:actions>
+          <v-btn
+              class="ms-auto"
+              text="Ok"
+              @click="dialog = false"
+          ></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
 
   </v-card>
 </template>
