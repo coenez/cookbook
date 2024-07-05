@@ -1,56 +1,55 @@
-<script>
+<script setup>
 import axios from 'axios';
+import {onMounted, ref} from "vue";
 
-export default {
-  data: () => ({
-    selected: [],
-    pageSize: 5,
-    totalItems: 0,
-    sortBy: [{ key: 'name', order: 'asc' }],
-    loading: true,
-    headers: [
-      {
-        title: 'Naam',
-        key: 'name',
-      },
-      {
-        title: 'Slug',
-        key: 'slug',
-        width: 200
-      },
-      {
-        title: 'Actions',
-        key: 'actions',
-        sortable: false,
-        width: 200
-      },
-    ],
-    categories: [],
-  }),
-  methods: {
-    loadItems () {
-      axios.get(this.$config.urls.category.list, {
-        params: {
-          orderBy: this.sortBy[0].key,
-          limit: this.pageSize,
-        }
-      }).then(response => {
-        this.categories = response.data;
-        this.totalItems = response.data?.length;
-        this.loading = false;
-      })
-    },
-    editItem (item) {
-      console.log(item)
-    },
-    delete (item) {
-      console.log(item)
-    }
+const pageSize = 5;
+const categories = ref([]);
+const totalItems = ref(0);
+const loading = ref(true);
+const sortBy = ref([{ key: 'name', order: 'asc' }])
+const headers = [
+  {
+    title: 'Naam',
+    key: 'name',
   },
-};
+  {
+    title: 'Slug',
+    key: 'slug',
+    width: 200
+  },
+  {
+    title: 'Actions',
+    key: 'actions',
+    sortable: false,
+    width: 200
+  },
+];
 
+function editItem (item) {
+  console.log(item)
+}
+function deleteItem (item) {
+  console.log(item)
+}
+
+function loadItems() {
+  console.log(sortBy.value[0]);
+  axios.get(getConfig('urls.category.list'),{
+    params: {
+      orderBy: sortBy.value[0]?.key + '|' + sortBy.value[0]?.order,
+      limit: pageSize,
+    }
+  }).then(response => {
+    categories.value = response.data;
+    totalItems.value = response.data?.length;
+    loading.value = false;
+  })
+}
+
+onMounted(loadItems)
 
 </script>
+
 <template>
   <v-card title="CategoryList" flat>
     <v-data-table-server
