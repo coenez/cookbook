@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios';
 import {ref} from "vue";
+import DeleteDialog from "../Component/Core/DeleteDialog.vue"
 
 const pageSize = 5;
 const data = ref([]);
@@ -139,23 +140,15 @@ function deleteConfirmed() {
       </v-card>
     </v-dialog>
 
-    <!--Delete dialog -->
-    <v-dialog v-model="deleteDialog">
-      <v-card>
-        <v-card-title class="bg-primary" color="buttonText">Categorie verwijderen</v-card-title>
-        <v-card-text>
-          <v-row>
-            Weet u zeker dat u dit item wilt verwijderen: {{activeRecord.name}}?
-          </v-row>
-          <v-row justify="center">
-            <v-col cols="4">
-              <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="deleteConfirmed">Ok</v-btn>
-              <v-btn variant="outlined" type="cancel" @click="close">Annuleren</v-btn>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+    <!-- Delete dialog -->
+    <DeleteDialog
+        v-model="deleteDialog"
+        :record="activeRecord"
+        :item-name="activeRecord.name"
+        item-type="Categorie"
+        @deleteConfirmed="deleteConfirmed"
+    />
+
   </v-card>
 </template>
 
