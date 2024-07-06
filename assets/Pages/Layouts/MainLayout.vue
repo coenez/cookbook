@@ -15,13 +15,11 @@
         <v-btn prepend-icon="mdi-home" color="buttonText">Home</v-btn>
       </router-link>
       <router-link :to="{name:'categoryList'}" activeClass="border-indigo-500">
-        <v-btn prepend-icon="mdi-plus" color="buttonText">Category</v-btn>
+        <v-btn prepend-icon="mdi-note-text-outline" color="buttonText">Category</v-btn>
       </router-link>
 
-
-      <v-btn prepend-icon="mdi-pencil">Page test 2</v-btn>
       <v-spacer></v-spacer>
-      <v-btn prepend-icon="mdi-magnify">Search</v-btn>
+      <v-spacer></v-spacer>
     </v-app-bar>
 
     <v-main class="justify-center px-5 mt-5" style="min-height: 300px;">
