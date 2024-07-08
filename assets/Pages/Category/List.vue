@@ -1,5 +1,5 @@
 <script setup>
-import CrudDataTable from "../Components/Core/CrudDataTable.vue"
+import CrudDataTable from "../../Components/Core/CrudDataTable.vue"
 
 const sortBy = [{ key: 'name', order: 'asc' }]
 const endPoints = {

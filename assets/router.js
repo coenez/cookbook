@@ -1,16 +1,18 @@
 import { createMemoryHistory, createRouter } from 'vue-router'
 
-import Home from './Pages/Home.vue'
-import CategoryList from './Pages/CategoryList.vue'
+import RecipeList from './Pages/Recipe/List.vue'
+import CategoryList from './Pages/Category/List.vue'
 
 const routes = [
     {
         name: 'home',
-        component: Home,
+        component: RecipeList,
+        label: 'Recepten'
     },
     {
         name: 'categoryList',
         component: CategoryList,
+        label: 'Categorieen'
     },
 ]
 

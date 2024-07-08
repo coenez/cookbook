@@ -1,6 +1,6 @@
 <script setup>
 
-import MainLayout from "./Pages/Layouts/MainLayout.vue";
+import MainLayout from "./Layouts/MainLayout.vue";
 import Test from "./Components/Test.vue";
 
 </script>
