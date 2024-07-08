@@ -24,10 +24,7 @@ const dataModel = {
   slug: ''
 }
 
-const entityName = {
-  single: 'Categorie',
-  multi: 'Categorieen'
-}
+const entityName = 'Categorie'
 
 const formFields = [
     [
@@ -48,7 +45,7 @@ const formFields = [
 
 <template>
   <v-card flat>
-    <v-card-title class="text-primary" >{{entityName.multi}}</v-card-title>
+    <v-card-title class="text-primary" >Categorieen</v-card-title>
 
     <!--Data grid -->
     <CrudDataTable

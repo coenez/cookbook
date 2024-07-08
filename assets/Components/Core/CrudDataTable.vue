@@ -6,13 +6,34 @@ import axios from "axios";
 import DynaForm from "./DynaForm.vue";
 
 const props = defineProps({
-  dataModel: Object,
-  headers: Array,
-  endPoints: Object,
-  entityName: Object,
-  formTitle: String,
-  formFields: Array,
-  pageSize: Number,
+  dataModel: {
+    type: Object,
+    required: true,
+  },
+  headers: {
+    type: Array,
+    required: true
+  },
+  endPoints: {
+    type: Object,
+    required: true
+  },
+  entityName: {
+    type: String,
+    required: true
+  },
+  formTitle: {
+    type: String,
+    required: true
+  },
+  formFields: {
+    type: Array,
+    required: true
+  },
+  pageSize: {
+    type: Number,
+    default: 10
+  },
 });
 
 const defaultHeaders = [{
@@ -90,10 +111,15 @@ function deleteConfirmed() {
   }
   close();
 }
+
+//dynaform event names
+const saveEvent ='DF'+props.entityName+'Save'
+const cancelEvent = 'DF'+props.entityName+'Cancel'
+
 </script>
 
 <template>
-  <v-btn variant="flat" base-color="primary" class="mr-4 float-right" @click="createItem" >Nieuwe {{entityName.single}}</v-btn>
+  <v-btn variant="flat" base-color="primary" class="mr-4 float-right" @click="createItem" >Nieuwe {{entityName}}</v-btn>
 
   <v-data-table-server
       :items-per-page="pageSize"
@@ -116,7 +142,7 @@ function deleteConfirmed() {
     <v-card>
       <v-card-title class="bg-primary" color="buttonText">{{formTitle}}</v-card-title>
       <v-card-text>
-        <DynaForm :form-fields="formFields" :active-record="activeRecord" @dynaformSave="save" @dynaformClose="close"/>
+        <DynaForm :name="entityName" :form-fields="formFields" :active-record="activeRecord" @[saveEvent]="save" @[cancelEvent]="close"/>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -126,7 +152,7 @@ function deleteConfirmed() {
       v-model="showDeleteDialog"
       :record="activeRecord"
       :item-name="activeRecord.name"
-      :item-type="entityName.single"
+      :item-type="entityName"
       @deleteConfirmed="deleteConfirmed"
   />
 </template>
