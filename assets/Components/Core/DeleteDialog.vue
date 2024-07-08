@@ -2,7 +2,7 @@
 
 const props = defineProps({
   record: Object,
-  itemType: String,
+  entityName: String,
   itemName: String,
   modelValue: Boolean,
 })
@@ -25,7 +25,7 @@ function close() {
 <template>
   <v-dialog :model-value="modelValue">
     <v-card>
-      <v-card-title class="bg-primary" color="buttonText">{{ itemType }} verwijderen</v-card-title>
+      <v-card-title class="bg-primary" color="buttonText">{{ entityName }} verwijderen</v-card-title>
       <v-card-text>
         <v-row>
           Weet u zeker dat u dit item wilt verwijderen: {{ itemName }}?

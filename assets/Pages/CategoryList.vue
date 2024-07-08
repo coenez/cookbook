@@ -55,8 +55,8 @@ const formFields = [
         :page-size="5"
         :entity-name="entityName"
         :sort-by="sortBy"
-        form-title="Bewerk categorie"
         :form-fields="formFields"
+        new-label="Nieuwe"
     >
     </CrudDataTable>
 

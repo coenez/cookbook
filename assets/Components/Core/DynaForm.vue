@@ -28,7 +28,6 @@
  *  - DFtestCancel
  */
 
-
 const props = defineProps({
   formFields: {
     type: Object,
@@ -37,34 +36,39 @@ const props = defineProps({
   name: {
     type: String,
     default: 'form'
+  },
+  newLabel: {
+    type: String,
+    default: 'Nieuw'
   }
 })
 
 const activeRecord = defineModel('activeRecord')
 
-const events = {
-  save: 'DF'+props.name+'Save',
-  cancel: 'DF'+props.name+'Cancel'
+//compile form title
+function getFormTitle() {
+  return (activeRecord.value.id > 0 ? 'Bewerk' : props.newLabel) + ' ' + props.name;
 }
 
 </script>
 
 <template>
-  <v-form @submit.prevent>
-    <v-row v-for="(fieldRow) in formFields">
-      <v-col v-for="(field) in fieldRow">
-        <component :is="field.type" v-model="activeRecord[field.name]" :name="field.name" :label="field.label"/>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="4">
-        <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="$emit(events.save)">Opslaan</v-btn>
-        <v-btn variant="outlined" type="cancel" @click="$emit(events.cancel)">Annuleren</v-btn>
-      </v-col>
-    </v-row>
-  </v-form>
+  <v-card>
+    <v-card-title class="bg-primary" color="buttonText">{{getFormTitle()}}</v-card-title>
+    <v-card-text>
+      <v-form @submit.prevent>
+        <v-row v-for="(fieldRow) in formFields">
+          <v-col v-for="(field) in fieldRow">
+            <component :is="field.type" v-model="activeRecord[field.name]" :name="field.name" :label="field.label"/>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="4">
+            <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="$emit('DF'+name+'Save')">Opslaan</v-btn>
+            <v-btn variant="outlined" type="cancel" @click="$emit('DF'+name+'Cancel')">Annuleren</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
-
-<style scoped>
-
-</style>

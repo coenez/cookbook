@@ -22,10 +22,6 @@ const props = defineProps({
     type: String,
     required: true
   },
-  formTitle: {
-    type: String,
-    required: true
-  },
   formFields: {
     type: Array,
     required: true
@@ -34,6 +30,10 @@ const props = defineProps({
     type: Number,
     default: 10
   },
+  newLabel: {
+    type: String,
+    default: 'Nieuw'
+  }
 });
 
 const defaultHeaders = [{
@@ -119,7 +119,7 @@ const cancelEvent = 'DF'+props.entityName+'Cancel'
 </script>
 
 <template>
-  <v-btn variant="flat" base-color="primary" class="mr-4 float-right" @click="createItem" >Nieuwe {{entityName}}</v-btn>
+  <v-btn variant="flat" base-color="primary" class="mr-4 float-right" @click="createItem" >{{newLabel}} {{entityName}}</v-btn>
 
   <v-data-table-server
       :items-per-page="pageSize"
@@ -139,12 +139,7 @@ const cancelEvent = 'DF'+props.entityName+'Cancel'
 
   <!--FORM-->
   <v-dialog v-model="showDialog">
-    <v-card>
-      <v-card-title class="bg-primary" color="buttonText">{{formTitle}}</v-card-title>
-      <v-card-text>
-        <DynaForm :name="entityName" :form-fields="formFields" :active-record="activeRecord" @[saveEvent]="save" @[cancelEvent]="close"/>
-      </v-card-text>
-    </v-card>
+    <DynaForm :name="entityName" :form-fields="formFields" :active-record="activeRecord" :new-label="newLabel" @[saveEvent]="save" @[cancelEvent]="close"/>
   </v-dialog>
 
   <!-- Delete dialog -->
@@ -152,7 +147,7 @@ const cancelEvent = 'DF'+props.entityName+'Cancel'
       v-model="showDeleteDialog"
       :record="activeRecord"
       :item-name="activeRecord.name"
-      :item-type="entityName"
+      :entity-name="entityName"
       @deleteConfirmed="deleteConfirmed"
   />
 </template>
