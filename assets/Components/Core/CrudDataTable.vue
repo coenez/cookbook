@@ -3,6 +3,7 @@
 import DeleteDialog from "./DeleteDialog.vue";
 import {ref} from "vue";
 import axios from "axios";
+import DynaForm from "./DynaForm.vue";
 
 const props = defineProps({
   dataModel: Object,
@@ -115,20 +116,7 @@ function deleteConfirmed() {
     <v-card>
       <v-card-title class="bg-primary" color="buttonText">{{formTitle}}</v-card-title>
       <v-card-text>
-        <v-form @submit.prevent>
-
-          <v-row v-for="(fieldRow) in formFields">
-            <v-col v-for="(field, key) in fieldRow">
-              <component  :is="field.type" v-model="activeRecord[field.name]" :name="field.name" :label="field.label"/>
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols="4">
-              <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="save">Opslaan</v-btn>
-              <v-btn variant="outlined" type="cancel" @click="close">Annuleren</v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
+        <DynaForm :form-fields="formFields" :active-record="activeRecord" @dynaformSave="save" @dynaformClose="close"/>
       </v-card-text>
     </v-card>
   </v-dialog>
