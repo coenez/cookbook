@@ -21,18 +21,16 @@ const defaultHeaders = [{
   width: 200
 }]
 
-
 const headers = props.headers.concat(defaultHeaders)
 const sortBy = defineModel('sortBy')
-
-const data = ref([]);
 const showDialog = ref(false);
 const showDeleteDialog = ref(false);
 
+//CRUD
+const data = ref([]);
 const totalItems = ref(0);
 const loading = ref(true);
-
-const activeRecord = Object.assign({}, props.dataModel);
+const activeRecord = ref(Object.assign({}, props.dataModel));
 const activeIndex = ref(-1);
 
 function editItem (item) {
@@ -118,13 +116,11 @@ function deleteConfirmed() {
       <v-card-title class="bg-primary" color="buttonText">{{formTitle}}</v-card-title>
       <v-card-text>
         <v-form @submit.prevent>
-          <!-- todo build the form based on the formFields prop-->
-          <v-row>
-            <v-col>
-              <v-text-field label="Name" v-model="activeRecord.name"></v-text-field>
-              <v-text-field label="Slug" v-model="activeRecord.slug"></v-text-field>
-            </v-col>
 
+          <v-row v-for="(fieldRow) in formFields">
+            <v-col v-for="(field, key) in fieldRow">
+              <component  :is="field.type" v-model="activeRecord[field.name]" :name="field.name" :label="field.label"/>
+            </v-col>
           </v-row>
           <v-row justify="center">
             <v-col cols="4">

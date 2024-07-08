@@ -30,16 +30,18 @@ const entityName = {
 }
 
 const formFields = [
-  {
-    type: 'v-text-field',
-    name: 'name',
-    label: 'Naam'
-  },
-  {
-    type: 'v-text-field',
-    name: 'slug',
-    label: 'Slug'
-  }
+    [
+      {
+        type: 'v-text-field',
+        name: 'name',
+        label: 'Naam'
+      },
+      {
+        type: 'v-text-field',
+        name: 'slug',
+        label: 'Slug'
+      }
+  ],
 ]
 
 </script>
