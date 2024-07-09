@@ -1,9 +1,10 @@
 <script setup>
 
 import DeleteDialog from "./DeleteDialog.vue";
-import {ref} from "vue";
+import {ref, inject} from "vue";
 import axios from "axios";
 import DynaForm from "./DynaForm.vue";
+import {useGlobalSearchTerm} from "../../Composables/useGlobalSearchTerm";
 
 const props = defineProps({
   dataModel: {
@@ -42,6 +43,8 @@ const defaultHeaders = [{
   sortable: false,
   width: 200
 }]
+
+const localSearchTerm = useGlobalSearchTerm(inject('globalSearchTerm'));
 
 const headers = props.headers.concat(defaultHeaders)
 const sortBy = defineModel('sortBy')
@@ -96,6 +99,7 @@ function loadItems() {
     params: {
       orderBy: sortBy.value[0]?.key + '|' + sortBy.value[0]?.order,
       limit: props.pageSize,
+      search: localSearchTerm.value
     }
   }).then(response => {
     data.value = response.data;
@@ -129,6 +133,7 @@ const cancelEvent = 'DF'+props.entityName+'Cancel'
       :items-length="totalItems"
       :loading="loading"
       item-value="id"
+      :search="localSearchTerm"
       @update:options="loadItems"
   >
     <template v-slot:item.actions="{ item }">
