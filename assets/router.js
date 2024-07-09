@@ -5,14 +5,20 @@ import CategoryList from './Pages/Category/List.vue'
 
 const routes = [
     {
-        name: 'home',
+        name: 'recipeList',
         component: RecipeList,
-        label: 'Recepten'
+        meta: {
+            label: 'Recepten',
+            icon: 'mdi-silverware-fork-knife',
+        }
     },
     {
         name: 'categoryList',
         component: CategoryList,
-        label: 'Categorieen'
+        meta:{
+            label: 'Categorieen',
+            icon: 'mdi-note-text-outline'
+        }
     },
 ]
 
