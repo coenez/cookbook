@@ -3,15 +3,18 @@
 </script>
 
 <template>
-  <v-card title="Home" flat>
+  <v-card flat>
+    <v-card-title class="text-primary">Recepten</v-card-title>
+    <v-card-text>
+      overview of recipes here please
 
-  <!--  <v-card class="mr-3 mb-3" variant="outlined" v-for="category in categories" :title="category.name">-->
-  <!--    <v-card-actions>-->
-  <!--      <v-btn prepend-icon="mdi-pencil">Bewerken</v-btn>-->
-  <!--      <v-btn prepend-icon="mdi-trash-can-outline">Verwijderen</v-btn>-->
-  <!--    </v-card-actions>-->
-  <!--  </v-card>-->
+
+    </v-card-text>
+
+
+
   </v-card>
+
 </template>
 
 <style scoped>
