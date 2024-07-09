@@ -45,7 +45,7 @@
   <!--extract to component later -->
   <v-navigation-drawer v-model="showFilterDrawer" location="right" temporary>
     <v-list>
-      <v-list-item title="Filters" class="text-primary"></v-list-item>
+      <v-list-item title="Filters" class="text-secondary"></v-list-item>
     </v-list>
     <v-list nav>
       <v-text-field variant="outlined" label="Testing filter tray"/>
