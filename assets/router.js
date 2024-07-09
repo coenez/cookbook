@@ -2,6 +2,7 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 
 import RecipeList from './Pages/Recipe/List.vue'
 import CategoryList from './Pages/Category/List.vue'
+import IngredientList from './Pages/Ingredient/List.vue'
 
 const routes = [
     {
@@ -18,6 +19,14 @@ const routes = [
         meta:{
             label: 'Categorieen',
             icon: 'mdi-note-text-outline'
+        }
+    },
+    {
+        name: 'ingredientList',
+        component: IngredientList,
+        meta:{
+            label: 'Ingredienten',
+            icon: 'mdi-bowl-mix-outline'
         }
     },
 ]

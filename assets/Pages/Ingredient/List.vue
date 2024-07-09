@@ -3,7 +3,7 @@ import CrudDataTable from "../../Components/Core/CrudDataTable.vue"
 
 const sortBy = [{ key: 'name', order: 'asc' }]
 const endPoints = {
-  get: getConfig('urls.category.list'),
+  get: getConfig('urls.ingredient.list'),
   put: ''
 }
 
@@ -12,6 +12,7 @@ const headers = [
     title: 'Naam',
     key: 'name',
   },
+
 ];
 
 const dataModel = {
@@ -19,15 +20,15 @@ const dataModel = {
   name: '',
 }
 
-const entityName = 'Categorie'
+const entityName = 'Ingredient'
 
 const formFields = [
-    [
-      {
-        type: 'v-text-field',
-        name: 'name',
-        label: 'Naam'
-      },
+  [
+    {
+      type: 'v-text-field',
+      name: 'name',
+      label: 'Naam'
+    },
   ],
 ]
 
@@ -35,7 +36,7 @@ const formFields = [
 
 <template>
   <v-card flat>
-    <v-card-title class="text-secondary" >Categorieen</v-card-title>
+    <v-card-title class="text-secondary" >Ingredienten</v-card-title>
 
     <!--Data grid -->
     <CrudDataTable
@@ -46,7 +47,7 @@ const formFields = [
         :entity-name="entityName"
         :sort-by="sortBy"
         :form-fields="formFields"
-        new-label="Nieuwe"
+        new-label="Nieuw"
     >
     </CrudDataTable>
 

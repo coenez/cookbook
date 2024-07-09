@@ -5,6 +5,8 @@ import {ref, inject} from "vue";
 import axios from "axios";
 import DynaForm from "./DynaForm.vue";
 import {useGlobalSearchTerm} from "../../Composables/useGlobalSearchTerm";
+import ErrorDialog from "./ErrorDialog.vue";
+import {parseAxiosError} from "../../Composables/parseAxiosError";
 
 const props = defineProps({
   dataModel: {
@@ -50,6 +52,7 @@ const headers = props.headers.concat(defaultHeaders)
 const sortBy = defineModel('sortBy')
 const showDialog = ref(false);
 const showDeleteDialog = ref(false);
+const error = ref({});
 
 //CRUD
 const data = ref([]);
@@ -105,6 +108,8 @@ function loadItems() {
     data.value = response.data;
     totalItems.value = response.data?.length;
     loading.value = false;
+  }).catch(responseError => {
+      error.value = parseAxiosError(responseError)
   })
 }
 
@@ -123,8 +128,8 @@ const cancelEvent = 'DF'+props.entityName+'Cancel'
 </script>
 
 <template>
+  <ErrorDialog :error="error" />
   <v-btn variant="flat" base-color="primary" class="mr-4 float-right" @click="createItem" >{{newLabel}} {{entityName}}</v-btn>
-
   <v-data-table-server
       :items-per-page="pageSize"
       v-model:sort-by="sortBy"

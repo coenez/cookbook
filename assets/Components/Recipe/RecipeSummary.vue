@@ -13,7 +13,7 @@ const textSummary = props.recipe.preparation.slice(0, 200) + '...'
     <v-card-subtitle>
       {{recipe.category.name}}
       <v-icon icon="mdi-clock" class="ml-2"/> {{recipe.duration}}
-      <v-icon icon="mdi-bowl-mix-outline" class="ml-2"/> {{recipe.portions}}
+      <v-icon icon="mdi-account-group" class="ml-2"/> {{recipe.portions}}
       <v-tooltip text="show user name here">
         <template v-slot:activator="{ props }">
           <v-icon icon="mdi-account" v-bind="props" class="ml-2 cursor-pointer"/>
