@@ -7,7 +7,7 @@ const localSearchTerm = ref('')
 export function useGlobalSearchTerm(globalSearchTerm) {
     watch(globalSearchTerm, debounce(() => {
         localSearchTerm.value = globalSearchTerm.value
-    }, 1500));
+    }, 1000));
 
     return localSearchTerm;
 }
