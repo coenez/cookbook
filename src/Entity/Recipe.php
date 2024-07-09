@@ -19,9 +19,6 @@ class Recipe
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $slug = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $preparation = null;
 
@@ -65,18 +62,6 @@ class Recipe
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = strtolower(str_replace(' ', '_', $slug));
 
         return $this;
     }

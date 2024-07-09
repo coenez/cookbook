@@ -25,7 +25,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
      */
     public function getDependencies(): array
     {
-        return [UserFixtures::class, CategoryFixtures::class];
+        return [UserFixtures::class, CategoryFixtures::class, IngredientFixtures::class];
     }
 
     public function load(ObjectManager $manager): void
@@ -38,9 +38,8 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
             $title = $this->faker->word();
             $recipe = new Recipe();
             $recipe->setName($title);
-            $recipe->setSlug($title);
             $recipe->setCategory($this->faker->randomElement($categories));
-            $recipe->setPreparation($this->faker->text(350));
+            $recipe->setPreparation($this->faker->text(500));
             $recipe->setDuration($this->faker->numberBetween(15, 120));
             $recipe->setPortions($this->faker->numberBetween(2, 8));
 //            $recipe->setAuthor($users[array_rand($users)]);

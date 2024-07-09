@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\Unit;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,8 +17,8 @@ class Ingredient
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $slug = null;
+    #[ORM\Column(type: 'string', length: 4, enumType: Unit::class)]
+    private Unit $unit;
 
     public function getId(): ?int
     {
@@ -36,15 +37,14 @@ class Ingredient
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getUnit(): Unit
     {
-        return $this->slug;
+        return $this->unit;
     }
 
-    public function setSlug(string $slug): static
+    public function setUnit(Unit $unit): static
     {
-        $this->slug = $slug;
-
+        $this->unit = $unit;
         return $this;
     }
 }

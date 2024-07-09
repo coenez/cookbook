@@ -11,15 +11,14 @@ class CategoryFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $data = [
-            ['name' => 'Breakfast', 'slug' => 'breakfast'],
-            ['name' => 'Lunch', 'slug' => 'lunch'],
-            ['name' => 'Dinner', 'slug' => 'dinner'],
-            ['name' => 'Desert', 'slug' => 'desert'],
+            ['name' => 'Breakfast'],
+            ['name' => 'Lunch'],
+            ['name' => 'Dinner'],
+            ['name' => 'Desert'],
         ];
         foreach($data as $row) {
             $category = new Category();
             $category->setName($row['name']);
-            $category->setSlug($row['slug']);
             $manager->persist($category);
         }
 
