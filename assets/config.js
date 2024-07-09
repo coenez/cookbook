@@ -1,7 +1,10 @@
 export const config = {
   urls: {
     category: {
-      list:  'category/list'
+      list: 'category/list'
+    },
+    recipe: {
+      list: 'recipe/list'
     }
   }
 }
