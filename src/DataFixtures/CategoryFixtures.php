@@ -15,6 +15,7 @@ class CategoryFixtures extends Fixture
             ['name' => 'Lunch'],
             ['name' => 'Dinner'],
             ['name' => 'Desert'],
+            ['name' => 'Borrel'],
         ];
         foreach($data as $row) {
             $category = new Category();

@@ -8,6 +8,9 @@ export const config = {
     },
     ingredient: {
       list: 'ingredient/list'
+    },
+    label: {
+      list: 'label/list'
     }
   }
 }

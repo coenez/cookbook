@@ -25,7 +25,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
      */
     public function getDependencies(): array
     {
-        return [UserFixtures::class, CategoryFixtures::class, IngredientFixtures::class];
+        return [UserFixtures::class, CategoryFixtures::class, IngredientFixtures::class, LabelFixtures::class];
     }
 
     public function load(ObjectManager $manager): void
