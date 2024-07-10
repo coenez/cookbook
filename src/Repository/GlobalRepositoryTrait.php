@@ -21,7 +21,7 @@ trait GlobalRepositoryTrait {
             $query->where($alias . '.name LIKE :search')
                 ->setParameter('search', "%$search%");
         }
-        if ($sort != '') {
+        if ($sort !== '') {
             $parts = explode('|', $sort);
             $query->orderBy($alias . '.' .$parts[0], $parts[1] ?? 'ASC');
         } else {

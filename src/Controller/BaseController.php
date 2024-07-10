@@ -17,11 +17,11 @@ class BaseController extends AbstractController {
     }
 
     public function fetchList(ServiceEntityRepository $repository, Request $request) {
-        $params = $this->extractFromRequest($request, ['search', 'sort', 'limit', 'offset']);
+        $params = $this->extractFromRequest($request, ['search', 'orderBy', 'limit', 'offset']);
         extract($params);
 
         return $this->json([
-            'result' => $repository->findBySearchAndSort((string)$search, (string)$sort, (int)$limit, (int)$offset),
+            'result' => $repository->findBySearchAndSort((string)$search, (string)$orderBy, (int)$limit, (int)$offset),
             'totalCount' => $repository->count()
         ]);
     }

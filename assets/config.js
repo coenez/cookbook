@@ -11,6 +11,7 @@ export const config = {
     ingredient: {
       list: 'ingredient/list',
       save: 'ingredient/save',
+      unitList: 'ingredient/unit/list',
     },
     label: {
       list: 'label/list',

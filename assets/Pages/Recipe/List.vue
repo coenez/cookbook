@@ -14,6 +14,8 @@ const sortBy = defineModel('sortBy')
 const localSearchTerm = useGlobalSearchTerm(inject('globalSearchTerm'));
 const filters = ref({});
 
+const applicationError = inject('applicationError');
+
 function loadItems() {
   axios.get(getConfig('urls.recipe.list'), {
     params: {
@@ -26,6 +28,8 @@ function loadItems() {
     data.value = response.data.result;
     totalItems.value = response.data.totalCount
     loading.value = false;
+  }).catch(error => {
+    applicationError.value = error.response.data
   })
 }
 

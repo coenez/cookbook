@@ -18,6 +18,12 @@ class IngredientController extends BaseController
         return $this->fetchList($ingredientRepository, $request);
     }
 
+    #[Route('/ingredient/unit/list', name: 'app_ingredient_unit_list')]
+    public function unitList(): Response
+    {
+        return $this->json(['result' => Unit::serialize()]);
+    }
+
     #[Route('/ingredient/save', name: 'app_ingredient_save')]
     public function save(IngredientRepository $ingredientRepository, Request $request, EntityManagerInterface $entityManager)
     {
