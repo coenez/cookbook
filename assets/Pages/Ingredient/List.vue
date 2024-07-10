@@ -4,7 +4,7 @@ import CrudDataTable from "../../Components/Core/CrudDataTable.vue"
 const sortBy = [{ key: 'name', order: 'asc' }]
 const endPoints = {
   get: getConfig('urls.ingredient.list'),
-  put: ''
+  put: getConfig('urls.ingredient.save')
 }
 
 const headers = [

@@ -24,6 +24,7 @@
         variant="outlined"
         class="mt-5"
         placeholder="Zoeken"
+        clearable="clearable"
     />
 
     <v-btn @click.stop="showSearchBar = !showSearchBar" icon="mdi-magnify"/>

@@ -81,15 +81,20 @@ function deleteItem (item) {
 }
 
 function save() {
-  //push to server first then update the grid
+  axios.put(props.endPoints.put, activeRecord.value).then(response => {
+    activeRecord.value = response.data;
 
-  if (activeIndex.value > -1) {
-    //existing record
-    Object.assign(data.value[activeIndex.value], activeRecord.value)
-  } else {
-    data.value.push(activeRecord.value)
-  }
-  close();
+    if (activeIndex.value > -1) {
+      //existing record
+      Object.assign(data.value[activeIndex.value], activeRecord.value)
+    } else {
+      data.value.push(activeRecord.value)
+    }
+    close();
+  }).catch(error => {
+    applicationError.value = error.response.data
+    close();
+  })
 }
 
 function close() {

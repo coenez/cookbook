@@ -1,16 +1,20 @@
 export const config = {
   urls: {
     category: {
-      list: 'category/list'
+      list: 'category/list',
+      save: 'category/save',
     },
     recipe: {
-      list: 'recipe/list'
+      list: 'recipe/list',
+      save: 'recipe/save',
     },
     ingredient: {
-      list: 'ingredient/list'
+      list: 'ingredient/list',
+      save: 'ingredient/save',
     },
     label: {
-      list: 'label/list'
+      list: 'label/list',
+      save: 'label/save',
     }
   }
 }
