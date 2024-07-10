@@ -119,11 +119,6 @@ function deleteConfirmed() {
   }
   close();
 }
-
-//dynaform event names
-const saveEvent ='DF'+props.entityName+'Save'
-const cancelEvent = 'DF'+props.entityName+'Cancel'
-
 </script>
 
 <template>
@@ -147,7 +142,7 @@ const cancelEvent = 'DF'+props.entityName+'Cancel'
 
   <!--FORM-->
   <v-dialog v-model="showDialog">
-    <DynaForm :name="entityName" :form-fields="formFields" :active-record="activeRecord" :new-label="newLabel" @[saveEvent]="save" @[cancelEvent]="close"/>
+    <DynaForm :name="entityName" :form-fields="formFields" :active-record="activeRecord" :new-label="newLabel" @df-save="save" @df-cancel="close"/>
   </v-dialog>
 
   <!-- Delete dialog -->

@@ -20,12 +20,6 @@
  *   ],
  * ]
  *
- * @param string name
- * the name determines the emitted events fired by the form to which a parent component can react
- * @example
- * name= 'test' will emit the following events:
- *  - DFtestSave
- *  - DFtestCancel
  */
 
 const props = defineProps({
@@ -43,6 +37,7 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['DfSave', 'DfCancel'])
 const activeRecord = defineModel('activeRecord')
 
 //compile form title
@@ -64,8 +59,8 @@ function getFormTitle() {
         </v-row>
         <v-row justify="center">
           <v-col cols="4">
-            <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="$emit('DF'+name+'Save')">Opslaan</v-btn>
-            <v-btn variant="outlined" type="cancel" @click="$emit('DF'+name+'Cancel')">Annuleren</v-btn>
+            <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="emit('DfSave')">Opslaan</v-btn>
+            <v-btn variant="outlined" type="cancel" @click="emit('DfCancel')">Annuleren</v-btn>
           </v-col>
         </v-row>
       </v-form>
