@@ -31,6 +31,10 @@ const props = defineProps({
     type: Number,
     default: 10
   },
+  sortBy: {
+    type: Array,
+    default: [{key: 'id', order: 'desc'}]
+  },
   newLabel: {
     type: String,
     default: 'Nieuw'
@@ -48,7 +52,6 @@ const localSearchTerm = useGlobalSearchTerm(inject('globalSearchTerm'));
 const applicationError = inject('applicationError');
 
 const headers = props.headers.concat(defaultHeaders)
-const sortBy = defineModel('sortBy')
 const showDialog = ref(false);
 const showDeleteDialog = ref(false);
 const error = ref({});
@@ -96,16 +99,17 @@ function close() {
   showDeleteDialog.value = false
 }
 
-function loadItems() {
+function loadItems(params) {
   axios.get(props.endPoints.get, {
     params: {
-      orderBy: sortBy.value[0]?.key + '|' + sortBy.value[0]?.order,
-      limit: props.pageSize,
-      search: localSearchTerm.value
+      orderBy: params.sortBy[0].key + '|' + params.sortBy[0].order,
+      limit: params.itemsPerPage,
+      offset: (params.page-1) * params.itemsPerPage,
+      search: params.search
     }
   }).then(response => {
-    data.value = response.data;
-    totalItems.value = response.data?.length;
+    data.value = response.data.result;
+    totalItems.value = response.data?.totalCount;
     loading.value = false;
   }).catch(error => {
       applicationError.value = error.response.data
@@ -124,8 +128,9 @@ function deleteConfirmed() {
 <template>
   <v-btn variant="flat" base-color="primary" class="mr-4 float-right" @click="createItem" >{{newLabel}} {{entityName}}</v-btn>
   <v-data-table-server
+      must-sort="must-sort"
       :items-per-page="pageSize"
-      v-model:sort-by="sortBy"
+      :sort-by="sortBy"
       :headers="headers"
       :items="data"
       :items-length="totalItems"

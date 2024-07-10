@@ -42,7 +42,6 @@ const formFields = [
         :data-model="dataModel"
         :headers="headers"
         :end-points="endPoints"
-        :page-size="5"
         :entity-name="entityName"
         :sort-by="sortBy"
         :form-fields="formFields"

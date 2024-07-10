@@ -23,8 +23,8 @@ function loadItems() {
       filters: filters
     }
   }).then(response => {
-    data.value = response.data;
-    totalItems.value = response.data?.length;
+    data.value = response.data.result;
+    totalItems.value = response.data.totalCount
     loading.value = false;
   })
 }
