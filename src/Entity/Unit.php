@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
-use App\Entity\Enum\Unit;
-use App\Repository\IngredientRepository;
+use App\Repository\UnitRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: IngredientRepository::class)]
-class Ingredient
+#[ORM\Entity(repositoryClass: UnitRepository::class)]
+class Unit
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,6 +15,9 @@ class Ingredient
 
     #[ORM\Column(length: 100)]
     private ?string $name = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $value = null;
 
     public function getId(): ?int
     {
@@ -30,6 +32,18 @@ class Ingredient
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): static
+    {
+        $this->value = $value;
 
         return $this;
     }

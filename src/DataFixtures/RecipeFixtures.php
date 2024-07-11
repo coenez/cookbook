@@ -19,10 +19,6 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
         private readonly CategoryRepository $categoryRepository
     ){}
 
-    /**
-     * Posts are dependent on user presence since a post is created by a user.
-     * @return array
-     */
     public function getDependencies(): array
     {
         return [UserFixtures::class, CategoryFixtures::class, IngredientFixtures::class, LabelFixtures::class];

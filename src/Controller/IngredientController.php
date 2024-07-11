@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Enum\Unit;
+
 use App\Entity\Ingredient;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,12 +18,6 @@ class IngredientController extends BaseController
         return $this->fetchList($ingredientRepository, $request);
     }
 
-    #[Route('/ingredient/unit/list', name: 'app_ingredient_unit_list')]
-    public function unitList(): Response
-    {
-        return $this->json(['result' => Unit::serialize()]);
-    }
-
     #[Route('/ingredient/save', name: 'app_ingredient_save')]
     public function save(IngredientRepository $ingredientRepository, Request $request, EntityManagerInterface $entityManager)
     {
@@ -34,7 +28,7 @@ class IngredientController extends BaseController
         }
 
         $ingredient->setName($data->get('name'));
-        $ingredient->setUnit(Unit::from($data->get('unit')));
+        //todo: FIX!
         $entityManager->persist($ingredient);
         $entityManager->flush();
 
