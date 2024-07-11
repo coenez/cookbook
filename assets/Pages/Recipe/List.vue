@@ -1,39 +1,20 @@
 <script setup>
 
 import RecipeSummary from "../../Components/Recipe/RecipeSummary.vue";
-import {inject, onMounted, ref, watch} from "vue";
-import axios from "axios";
+import {inject, ref, watch} from "vue";
 import {useGlobalSearchTerm} from "../../Composables/useGlobalSearchTerm";
 import {debounce} from "lodash/function";
+import RemoteSelect from "../../Components/Form/RemoteSelect.vue";
+import {fetchData} from "../../Composables/fetchData";
 
-const pageSize = 5;
-const data = ref([]);
-const totalItems = ref(0);
-const loading = ref(true);
-const sortBy = defineModel('sortBy')
 const localSearchTerm = useGlobalSearchTerm(inject('globalSearchTerm'));
 const filters = ref({});
 
 const applicationError = inject('applicationError');
 
-function loadItems() {
-  axios.get(getConfig('urls.recipe.list'), {
-    params: {
-      // orderBy: sortBy.value[0]?.key + '|' + sortBy.value[0]?.order,
-      limit: pageSize,
-      search: localSearchTerm.value,
-      filters: filters
-    }
-  }).then(response => {
-    data.value = response.data.result;
-    totalItems.value = response.data.totalCount
-    loading.value = false;
-  }).catch(error => {
-    applicationError.value = error.response.data
-  })
-}
+const {data, totalCount, error, loading} = fetchData(getConfig('urls.recipe.list'), {}, applicationError)
 
-onMounted(loadItems)
+
 
 //watch local searchterm change to trigger a reload
 watch(localSearchTerm, debounce(() => {
@@ -46,6 +27,10 @@ watch(localSearchTerm, debounce(() => {
   <v-card flat>
     <v-card-title class="text-secondary">Recepten</v-card-title>
     <v-card-text>
+      <div class="text-center">
+        <v-progress-circular class="mx-auto" v-if="loading" size="100" width="10" color="primary" indeterminate/>
+      </div>
+
       <RecipeSummary v-for="recipe in data" :recipe="recipe"></RecipeSummary>
     </v-card-text>
   </v-card>

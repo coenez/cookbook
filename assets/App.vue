@@ -1,7 +1,6 @@
 <script setup>
 
 import MainLayout from "./Layouts/MainLayout.vue";
-import Test from "./Components/Test.vue";
 import {ref, provide} from "vue";
 import ErrorDialog from "./Components/Core/ErrorDialog.vue";
 
