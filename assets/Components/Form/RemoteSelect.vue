@@ -15,7 +15,6 @@ const {data, totalCount, error, loading} = fetchData(props.url)
       :loading="loading ? 'primary' : false"
       :label="label"
       item-title="name"
-      item-text="name"
       item-value="value"
       :items="data"
       return-object>
