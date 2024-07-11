@@ -21,7 +21,7 @@ const headers = [
 const dataModel = {
   id: 0,
   name: '',
-  unit: null,
+  unit: 0,
 }
 
 const entityName = 'Ingredient'
@@ -37,6 +37,7 @@ const formFields = [
       type: 'RemoteSelect',
       name: 'unit',
       label: 'Eenheid',
+      itemValue: 'id',
       url: getConfig('urls.unit.list')
     },
   ],

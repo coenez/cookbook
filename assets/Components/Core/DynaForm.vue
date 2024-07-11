@@ -61,6 +61,7 @@ function getFormTitle() {
                 :name="field.name"
                 :label="field.label"
                 :url="field.url ?? ''"
+                :itemValue="field.itemValue ?? ''"
             />
           </v-col>
         </v-row>

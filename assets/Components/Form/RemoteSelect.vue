@@ -4,8 +4,13 @@ import {fetchData} from "../../Composables/fetchData";
 const props = defineProps({
   url: String,
   label: String,
+  itemValue: {
+    type: String,
+    default: ''
+  }
 })
 
+const returnObject = props.itemValue === ''
 const {data, totalCount, error, loading} = fetchData(props.url)
 
 </script>
@@ -15,9 +20,9 @@ const {data, totalCount, error, loading} = fetchData(props.url)
       :loading="loading ? 'primary' : false"
       :label="label"
       item-title="name"
-      item-value="value"
+      :item-value="itemValue"
       :items="data"
-      return-object>
+      :return-object="returnObject">
   </v-select>
 </template>
 
