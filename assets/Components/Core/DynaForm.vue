@@ -54,7 +54,14 @@ function getFormTitle() {
       <v-form @submit.prevent>
         <v-row v-for="(fieldRow) in formFields">
           <v-col v-for="(field) in fieldRow">
-            <component :is="field.type" variant="outlined" v-model="activeRecord[field.name]" :name="field.name" :label="field.label"/>
+            <component
+                :is="field.type"
+                variant="outlined"
+                v-model="activeRecord[field.name]"
+                :name="field.name"
+                :label="field.label"
+                :url="field.url ?? ''"
+            />
           </v-col>
         </v-row>
         <v-row justify="center">

@@ -12,6 +12,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import router from './router'
 import App from './App.vue'
 import './config';
+import RemoteSelect from "./Components/Form/RemoteSelect.vue";
 
 const vuetify= createVuetify({
     components,
@@ -43,4 +44,5 @@ const app = createApp(App);
 
 app.use(vuetify)
     .use(router)
+    .component('RemoteSelect', RemoteSelect)
     .mount('#app')

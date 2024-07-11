@@ -1,19 +1,24 @@
 <script setup>
 import {fetchData} from "../../Composables/fetchData";
 
-const {data, totalCount, error, loading} = fetchData(getConfig('urls.ingredient.unitList'))
+const props = defineProps({
+  url: String,
+  label: String,
+})
+
+const {data, totalCount, error, loading} = fetchData(props.url)
 
 </script>
 
 <template>
   <v-select
       :loading="loading ? 'primary' : false"
-      label="Test ready"
+      :label="label"
       item-title="name"
       item-text="name"
       item-value="value"
       :items="data"
-      return-object="return-object">
+      return-object>
   </v-select>
 </template>
 

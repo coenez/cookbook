@@ -4,7 +4,6 @@ import RecipeSummary from "../../Components/Recipe/RecipeSummary.vue";
 import {inject, ref, watch} from "vue";
 import {useGlobalSearchTerm} from "../../Composables/useGlobalSearchTerm";
 import {debounce} from "lodash/function";
-import RemoteSelect from "../../Components/Form/RemoteSelect.vue";
 import {fetchData} from "../../Composables/fetchData";
 
 const localSearchTerm = useGlobalSearchTerm(inject('globalSearchTerm'));

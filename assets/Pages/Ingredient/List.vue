@@ -11,6 +11,9 @@ const headers = [
   {
     title: 'Naam',
     key: 'name',
+  },{
+    title: 'Eenheid',
+    key: 'unit',
   },
 
 ];
@@ -18,6 +21,7 @@ const headers = [
 const dataModel = {
   id: 0,
   name: '',
+  unit: null,
 }
 
 const entityName = 'Ingredient'
@@ -28,6 +32,12 @@ const formFields = [
       type: 'v-text-field',
       name: 'name',
       label: 'Naam'
+    },
+    {
+      type: 'RemoteSelect',
+      name: 'unit',
+      label: 'Eenheid',
+      url: getConfig('urls.unit.list')
     },
   ],
 ]
