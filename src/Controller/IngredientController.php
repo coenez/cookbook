@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Ingredient;
 use App\Repository\IngredientRepository;
+use App\Repository\UnitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,16 +20,20 @@ class IngredientController extends BaseController
     }
 
     #[Route('/ingredient/save', name: 'app_ingredient_save')]
-    public function save(IngredientRepository $ingredientRepository, Request $request, EntityManagerInterface $entityManager)
+    public function save(IngredientRepository $ingredientRepository, UnitRepository $unitRepository, Request $request, EntityManagerInterface $entityManager)
     {
-        $data = $request->getPayload();
+        $request = $this->convertJsonPayload($request);
+
         $ingredient = new Ingredient();
-        if ($data->get('id')) {
-            $ingredient = $ingredientRepository->find($data->get('id'));
+        if ($request->get('id')) {
+            $ingredient = $ingredientRepository->find($request->get('id'));
         }
 
-        $ingredient->setName($data->get('name'));
-        //todo: FIX!
+        $unit = $unitRepository->find($request->get('unit'));
+
+        $ingredient->setName($request->get('name'));
+        $ingredient->setUnit($unit);
+
         $entityManager->persist($ingredient);
         $entityManager->flush();
 

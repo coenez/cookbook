@@ -33,7 +33,7 @@ class IngredientFixtures extends Fixture implements DependentFixtureInterface
         foreach($data as $row) {
             $ingredient = new Ingredient();
             $ingredient->setName($row['name']);
-//            $ingredient->setUnit($units[array_rand($units)]);
+            $ingredient->setUnit($units[array_rand($units)]);
             $manager->persist($ingredient);
         }
 

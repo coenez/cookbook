@@ -26,5 +26,10 @@ class BaseController extends AbstractController {
         ]);
     }
 
+    public function convertJsonPayload(Request $request) {
+        $request->request->replace(json_decode($request->getContent(), true));
+        return $request;
+    }
+
 
 }

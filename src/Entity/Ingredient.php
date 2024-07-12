@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Enum\Unit;
+use App\Entity\Unit;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,6 +17,10 @@ class Ingredient
     #[ORM\Column(length: 100, unique: true)]
     private ?string $name = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Unit $unit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -30,6 +34,18 @@ class Ingredient
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): static
+    {
+        $this->unit = $unit;
 
         return $this;
     }

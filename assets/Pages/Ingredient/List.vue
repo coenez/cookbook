@@ -13,7 +13,7 @@ const headers = [
     key: 'name',
   },{
     title: 'Eenheid',
-    key: 'unit',
+    key: 'unit.name',
   },
 
 ];
@@ -21,7 +21,7 @@ const headers = [
 const dataModel = {
   id: 0,
   name: '',
-  unit: 0,
+  unit: null,
 }
 
 const entityName = 'Ingredient'
