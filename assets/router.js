@@ -4,6 +4,7 @@ import RecipeList from './Pages/Recipe/List.vue'
 import CategoryList from './Pages/Category/List.vue'
 import IngredientList from './Pages/Ingredient/List.vue'
 import LabelList from './Pages/Label/List.vue'
+import UnitList from './Pages/Unit/List.vue'
 
 const routes = [
     {
@@ -36,6 +37,14 @@ const routes = [
         meta:{
             label: 'Labels',
             icon: 'mdi-label-multiple-outline'
+        }
+    },
+    {
+        name: 'unitList',
+        component: UnitList,
+        meta:{
+            label: 'Eenheden',
+            icon: 'mdi-ruler'
         }
     },
 ]
