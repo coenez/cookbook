@@ -1,9 +1,12 @@
 <script setup>
+import {calculateDuration} from "../../Composables/calculateDuration";
+
 const props = defineProps({
   recipe: Object,
 })
 
 const textSummary = props.recipe.preparation.slice(0, 200) + '...'
+const duration = calculateDuration(props.recipe.duration);
 </script>
 
 <template>
@@ -12,7 +15,7 @@ const textSummary = props.recipe.preparation.slice(0, 200) + '...'
 
     <v-card-subtitle>
       {{recipe.category.name}}
-      <v-icon icon="mdi-clock" class="ml-2"/> {{recipe.duration}}
+      <v-icon icon="mdi-clock" class="ml-2"/> {{duration}}
       <v-icon icon="mdi-account-group" class="ml-2"/> {{recipe.portions}}
       <v-tooltip text="show user name here">
         <template v-slot:activator="{ props }">
