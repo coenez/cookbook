@@ -1,5 +1,6 @@
 <script setup>
 import {fetchData} from "../../Composables/fetchData";
+import {ref} from "vue";
 
 const props = defineProps({
   url: String,
@@ -10,8 +11,9 @@ const props = defineProps({
   }
 })
 
+const data = ref([])
 const returnObject = props.itemValue === ''
-const {data, totalCount, error, loading} = fetchData(props.url)
+const {loading} = fetchData(props.url, {}, data)
 
 </script>
 

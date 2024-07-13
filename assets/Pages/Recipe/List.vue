@@ -11,9 +11,8 @@ const filters = ref({});
 
 const applicationError = inject('applicationError');
 
-const {data, totalCount, error, loading} = fetchData(getConfig('urls.recipe.list'), {}, applicationError)
-
-
+const data = ref([])
+const {loading} = fetchData(getConfig('urls.recipe.list'), {}, data, applicationError)
 
 //watch local searchterm change to trigger a reload
 watch(localSearchTerm, debounce(() => {
