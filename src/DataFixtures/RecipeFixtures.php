@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Recipe;
 use App\Repository\CategoryRepository;
+use App\Repository\IngredientRepository;
+use App\Repository\LabelRepository;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -15,19 +17,20 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
     protected Faker\Generator $faker;
 
     public function __construct(
-        private readonly UserRepository $userRepository,
-        private readonly CategoryRepository $categoryRepository
+        private readonly CategoryRepository $categoryRepository,
+        private readonly LabelRepository $labelRepository,
     ){}
 
     public function getDependencies(): array
     {
-        return [UserFixtures::class, CategoryFixtures::class, IngredientFixtures::class, LabelFixtures::class];
+        return [UserFixtures::class, CategoryFixtures::class, LabelFixtures::class];
     }
 
     public function load(ObjectManager $manager): void
     {
-        $users = $this->userRepository->findAll();
+        $labels = $this->labelRepository->findAll();
         $categories = $this->categoryRepository->findAll();
+
         $this->faker = Faker\Factory::create();
 
         for($i = 0; $i < $this->faker->numberBetween(10, 20); $i++) {
@@ -38,7 +41,10 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
             $recipe->setPreparation($this->faker->text(500));
             $recipe->setDuration($this->faker->numberBetween(15, 120));
             $recipe->setPortions($this->faker->numberBetween(2, 8));
-//            $recipe->setAuthor($users[array_rand($users)]);
+
+            for($j = 0; $j < $this->faker->numberBetween(1, 3); $j++) {
+                $recipe->addLabel($labels[array_rand($labels)]);
+            }
             $recipe->setCreated($this->faker->dateTimeBetween('-100 days', '-1 days'));
             $manager->persist($recipe);
         }

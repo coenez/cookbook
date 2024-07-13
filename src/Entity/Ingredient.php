@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Unit;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,6 +20,9 @@ class Ingredient
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Unit $unit = null;
+
+    #[ORM\OneToMany(targetEntity: RecipeIngredient::class, mappedBy: 'ingredient')]
+    private Collection $recipeIngredients;
 
     public function getId(): ?int
     {
