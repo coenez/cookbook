@@ -1,17 +1,10 @@
 <script setup>
 
-import {calculateDuration} from "../../Composables/calculateDuration";
 import RecipeSubTitle from "./RecipeSubTitle.vue";
 
 const props = defineProps({
   recipe: Object
 })
-
-const duration = calculateDuration(props.recipe.duration);
-
-function redirect(label) {
-  console.log('redirect to', label)
-}
 </script>
 
 <template>
@@ -22,22 +15,10 @@ function redirect(label) {
       <div>image here</div>
     </v-card-text>
     <RecipeSubTitle :recipe="recipe" />
-    <v-card-text>
-      <v-chip
-          v-for="label in recipe.labels"
-          class="mr-2 mt-2"
-          density="comfortable"
-          size="small"
-          variant="tonal"
-          color="primary"
-          @click="redirect(label)"
-      >
-        {{label.name}}
-      </v-chip>
-    </v-card-text>
+
 
   </v-card>
-  <v-card flat class="mb-4 border-b-thin">
+  <v-card flat class="mb-4 pb-2 mt-n4 border-b-thin">
     <v-card-title class="text-primary">Ingredienten</v-card-title>
     <v-card-text>
       ingredienten hier

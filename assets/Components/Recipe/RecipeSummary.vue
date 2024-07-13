@@ -12,7 +12,7 @@ const textSummary = props.recipe.preparation.slice(0, 200) + '...'
   <v-card class="mb-8 cardOutline" border="thin" color="text" variant="outlined">
     <v-card-title class="text-primary ">{{recipe.name}} </v-card-title>
     <RecipeSubTitle :recipe="recipe"/>
-    <v-card-text>
+    <v-card-text class="mt-n4">
       {{textSummary}}
     </v-card-text>
     <v-card-actions>
