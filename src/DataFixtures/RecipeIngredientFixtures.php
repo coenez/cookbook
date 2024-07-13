@@ -2,8 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Ingredient;
-use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\Repository\IngredientRepository;
@@ -43,9 +41,7 @@ class RecipeIngredientFixtures extends Fixture implements DependentFixtureInterf
 
                 $manager->persist($recipeIngredient);
             }
-
         }
-
         $manager->flush();
     }
 }
