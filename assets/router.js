@@ -5,12 +5,14 @@ import CategoryList from './Pages/Category/List.vue'
 import IngredientList from './Pages/Ingredient/List.vue'
 import LabelList from './Pages/Label/List.vue'
 import UnitList from './Pages/Unit/List.vue'
+import RecipeView from './Pages/Recipe/View.vue'
 
 const routes = [
     {
         name: 'recipeList',
         component: RecipeList,
         meta: {
+            main: true, //used to determine main navigation
             label: 'Recepten',
             icon: 'mdi-silverware-fork-knife',
         }
@@ -18,7 +20,8 @@ const routes = [
     {
         name: 'categoryList',
         component: CategoryList,
-        meta:{
+        meta: {
+            main: true,
             label: 'Categorieen',
             icon: 'mdi-note-text-outline'
         }
@@ -26,7 +29,8 @@ const routes = [
     {
         name: 'ingredientList',
         component: IngredientList,
-        meta:{
+        meta: {
+            main: true,
             label: 'Ingredienten',
             icon: 'mdi-bowl-mix-outline'
         }
@@ -34,7 +38,8 @@ const routes = [
     {
         name: 'labelList',
         component: LabelList,
-        meta:{
+        meta: {
+            main: true,
             label: 'Labels',
             icon: 'mdi-label-multiple-outline'
         }
@@ -42,15 +47,27 @@ const routes = [
     {
         name: 'unitList',
         component: UnitList,
-        meta:{
+        meta: {
+            main: true,
             label: 'Eenheden',
             icon: 'mdi-ruler'
+        }
+    },
+    {
+        name: 'recipeView',
+        path: '/recipe/:id',
+        component: RecipeView,
+        props: true,
+        meta: {
+            main: false,
         }
     },
 ]
 
 const router = createRouter({
     history: createMemoryHistory(),
+    // parseQuery: JSON.parse,
+    // stringifyQuery: JSON.stringify,
     routes,
 })
 

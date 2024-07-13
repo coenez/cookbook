@@ -30,6 +30,7 @@ const duration = calculateDuration(props.recipe.duration);
 
     <v-card-actions>
       <v-btn
+          :to="{name:'recipeView', params: {id:recipe.id}}"
           color="primary"
           text="Bekijk recept"
           variant="text"

@@ -6,6 +6,7 @@ export const config = {
     },
     recipe: {
       list: 'recipe/list',
+      get: 'recipe/get',
       save: 'recipe/save',
     },
     ingredient: {

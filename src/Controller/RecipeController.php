@@ -16,9 +16,9 @@ class RecipeController extends BaseController
         return $this->fetchList($recipeRepository, $request);
     }
 
-    #[Route('/recipe/get/{id<\d>}', name: 'app_recipe_get')]
-    public function get(Recipe $recipe): Response
+    #[Route('/recipe/get', name: 'app_recipe_get')]
+    public function get(RecipeRepository $recipeRepository, Request $request): Response
     {
-        return $this->json($recipe);
+        return $this->json($recipeRepository->find($request->get('id')));
     }
 }
