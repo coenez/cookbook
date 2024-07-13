@@ -31,16 +31,20 @@
     <v-btn @click.stop="showSearchBar = !showSearchBar" icon="mdi-magnify"/>
     <v-btn v-if="showFilterIcon" @click.stop="showFilterDrawer = !showFilterDrawer" icon="mdi-filter"/>
     <v-btn icon="mdi-account"/>
-
   </v-app-bar>
+
   <v-navigation-drawer v-model="showMainNavDrawer" location="left" temporary>
     <v-list nav>
-      <v-list-item v-for="route in router.getRoutes()"
-         :to="{name:route.name}"
-         :prepend-icon="route.meta.icon"
-         :title="route.meta.label"
-         :value="route.name">
-      </v-list-item>
+      <div v-for="route in router.getRoutes()">
+        <v-list-item
+            v-if="route.meta.main"
+            :to="{name:route.name}"
+            :prepend-icon="route.meta.icon"
+            :title="route.meta.label"
+            :value="route.name">
+        </v-list-item>
+      </div>
+
     </v-list>
   </v-navigation-drawer>
 

@@ -5,6 +5,14 @@
 <template>
   <v-layout ref="app">
     <Menu/>
+    <v-fab
+        :to="{name:'recipeNew'}"
+        icon="mdi-plus"
+        color="primary"
+        location="top"
+        fixed
+        app
+    />
     <v-main class="justify-center px-5 mt-5" style="min-height: 300px;">
       <RouterView />
     </v-main>

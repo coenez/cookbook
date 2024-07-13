@@ -6,6 +6,7 @@ import IngredientList from './Pages/Ingredient/List.vue'
 import LabelList from './Pages/Label/List.vue'
 import UnitList from './Pages/Unit/List.vue'
 import RecipeView from './Pages/Recipe/View.vue'
+import RecipeNew from './Pages/Recipe/New.vue'
 
 const routes = [
     {
@@ -58,6 +59,13 @@ const routes = [
         path: '/recipe/:id',
         component: RecipeView,
         props: true,
+        meta: {
+            main: false,
+        }
+    },
+    {
+        name: 'recipeNew',
+        component: RecipeNew,
         meta: {
             main: false,
         }
