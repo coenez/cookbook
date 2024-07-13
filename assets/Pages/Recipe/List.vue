@@ -23,7 +23,7 @@ watch(localSearchTerm, debounce(() => {
 
 <template>
   <v-card flat>
-    <v-card-title class="text-secondary">Recepten</v-card-title>
+    <v-card-title class="text-secondary text-h4">Recepten</v-card-title>
     <v-card-text>
       <div class="text-center">
         <v-progress-circular class="mx-auto" v-if="loading" size="100" width="10" color="primary" indeterminate/>

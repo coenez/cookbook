@@ -36,7 +36,7 @@ const formFields = [
 
 <template>
   <v-card flat>
-    <v-card-title class="text-secondary" >Labels</v-card-title>
+    <v-card-title class="text-secondary text-h4" >Labels</v-card-title>
 
     <!--Data grid -->
     <CrudDataTable
