@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 
 // Vuetify
 import 'vuetify/styles'
@@ -46,3 +46,7 @@ app.use(vuetify)
     .use(router)
     .component('RemoteSelect', RemoteSelect)
     .mount('#app')
+
+    if (window.location.hash) {
+        router.redirectFromHash(window.location.hash)
+    }

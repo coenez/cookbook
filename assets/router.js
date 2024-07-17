@@ -74,9 +74,24 @@ const routes = [
 
 const router = createRouter({
     history: createMemoryHistory(),
-    // parseQuery: JSON.parse,
-    // stringifyQuery: JSON.stringify,
     routes,
 })
+
+router.extractHash = (hash)=> {
+    //todo: add encryption
+    let parts = hash.split('-');
+    if (parts[0] === '#recipe' && parts[1] > 0) {
+        return parts[1];
+    }
+    return 0;
+}
+
+router.redirectFromHash = (hash)=> {
+    let id = router.extractHash(hash);
+
+    if (id) {
+        router.push({name:'recipeView', params: {id: id}})
+    }
+}
 
 export default router
