@@ -9,6 +9,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['editPortion'])
+
 const duration = calculateDuration(props.recipe.duration);
 
 function redirect(type, object) {
@@ -16,8 +18,7 @@ function redirect(type, object) {
 }
 
 function changePortion() {
-  console.log('emit event to show slider')
-  console.log('on Slider change recalculates ingredient amount')
+  emit('editPortion')
 }
 </script>
 

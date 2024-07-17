@@ -1,8 +1,9 @@
 <script setup>
 
 import RecipeSubTitle from "./RecipeSubTitle.vue";
-import {inject, onMounted, ref} from "vue";
+import {inject, onMounted, ref, watch} from "vue";
 import {fetchData} from "../../Composables/fetchData";
+import PortionCalculator from "./PortionCalculator.vue";
 
 const props = defineProps({
   recipe: Object
@@ -10,10 +11,13 @@ const props = defineProps({
 
 const ingredients = ref([])
 const applicationError = inject('applicationError')
+const showPortionSlider = ref(false)
+
 
 onMounted(() => {
   fetchData(getConfig('urls.ingredient.recipe'), {params: {recipeId: props.recipe.id}}, ingredients, applicationError)
 })
+
 </script>
 
 <template>
@@ -22,7 +26,8 @@ onMounted(() => {
     <v-card-text>
       <div>image here</div>
     </v-card-text>
-    <RecipeSubTitle :recipe="recipe" />
+    <RecipeSubTitle :recipe="recipe" @edit-portion="showPortionSlider = !showPortionSlider" />
+    <PortionCalculator :show="showPortionSlider" :ingredients="ingredients" :portions="recipe.portions" />
   </v-card>
 
   <v-card flat class="mb-4 pb-2 mt-n4 border-b-thin">
