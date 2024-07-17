@@ -8,6 +8,10 @@ const props = defineProps({
   itemValue: {
     type: String,
     default: ''
+  },
+  multiple: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -19,6 +23,8 @@ const {loading} = fetchData(props.url, {}, data)
 
 <template>
   <v-select
+      clearable
+      :multiple="multiple"
       :loading="loading ? 'primary' : false"
       :label="label"
       item-title="name"
