@@ -1,6 +1,7 @@
 <script setup>
   import {ref, inject, computed} from "vue";
   import router from "../../router";
+  import Filter from "./Filter.vue";
 
   const showMainNavDrawer = ref(false)
   const globalSearchTerm = inject('globalSearchTerm')
@@ -53,11 +54,6 @@
 
   <!--extract to component later -->
   <v-navigation-drawer v-model="showFilterDrawer" location="right" temporary>
-    <v-list>
-      <v-list-item title="Filters" class="text-secondary"></v-list-item>
-    </v-list>
-    <v-list nav>
-      <v-text-field variant="outlined" label="Testing filter tray"/>
-    </v-list>
+    <Filter />
   </v-navigation-drawer>
 </template>

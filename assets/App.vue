@@ -10,6 +10,9 @@ provide('globalSearchTerm', globalSearchTerm);
 
 const applicationError = ref(null)
 provide('applicationError', applicationError);
+
+const globalFilter = ref(null)
+provide('globalFilter', globalFilter);
 </script>
 
 <template>

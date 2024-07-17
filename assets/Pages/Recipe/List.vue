@@ -7,7 +7,8 @@ import {debounce} from "lodash/function";
 import {fetchData} from "../../Composables/fetchData";
 
 const localSearchTerm = useGlobalSearchTerm(inject('globalSearchTerm'));
-const filters = ref({});
+
+const filters = inject('globalFilter');
 
 const applicationError = inject('applicationError');
 
@@ -16,7 +17,11 @@ const {loading} = fetchData(getConfig('urls.recipe.list'), {}, data, application
 
 //watch local searchterm change to trigger a reload
 watch(localSearchTerm, debounce(() => {
-  loadItems()
+  console.log('search has changed')
+}, 1000));
+
+watch(filters, debounce(() => {
+  console.log('the filters are changed', filters)
 }, 1000));
 
 </script>
