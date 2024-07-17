@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class BaseController extends AbstractController {
@@ -16,7 +17,7 @@ class BaseController extends AbstractController {
         return $result;
     }
 
-    public function fetchList(ServiceEntityRepository $repository, Request $request) {
+    public function fetchList(ServiceEntityRepository $repository, Request $request): JsonResponse {
         $params = $this->extractFromRequest($request, ['search', 'orderBy', 'limit', 'offset']);
         extract($params);
 
@@ -26,7 +27,7 @@ class BaseController extends AbstractController {
         ]);
     }
 
-    public function convertJsonPayload(Request $request) {
+    public function convertJsonPayload(Request $request): Request {
         $request->request->replace(json_decode($request->getContent(), true));
         return $request;
     }

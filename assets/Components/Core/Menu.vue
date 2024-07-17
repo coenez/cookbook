@@ -5,6 +5,9 @@
   const showMainNavDrawer = ref(false)
   const globalSearchTerm = inject('globalSearchTerm')
   const showSearchBar = ref(false)
+  const showSearchIcon = computed(() => {
+    return router.currentRoute.value.name !== 'recipeView'
+  })
 
   const showFilterDrawer = ref(false)
   const showFilterIcon = computed(() => {
@@ -28,7 +31,7 @@
         autofocus="autofocus"
     />
 
-    <v-btn @click.stop="showSearchBar = !showSearchBar" icon="mdi-magnify"/>
+    <v-btn v-if="showSearchIcon" @click.stop="showSearchBar = !showSearchBar" icon="mdi-magnify"/>
     <v-btn v-if="showFilterIcon" @click.stop="showFilterDrawer = !showFilterDrawer" icon="mdi-filter"/>
     <v-btn icon="mdi-account"/>
   </v-app-bar>

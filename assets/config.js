@@ -12,6 +12,7 @@ export const config = {
     ingredient: {
       list: 'ingredient/list',
       save: 'ingredient/save',
+      recipe: 'ingredient/recipe'
     },
     label: {
       list: 'label/list',
