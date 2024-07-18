@@ -52,8 +52,5 @@
     </v-list>
   </v-navigation-drawer>
 
-  <!--extract to component later -->
-  <v-navigation-drawer v-model="showFilterDrawer" location="right" temporary>
-    <Filter />
-  </v-navigation-drawer>
+  <Filter :show="showFilterDrawer" @submitFilter="showFilterDrawer = !showFilterDrawer"/>
 </template>
