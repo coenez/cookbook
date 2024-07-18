@@ -15,7 +15,9 @@ const showPortionSlider = ref(false)
 
 
 onMounted(() => {
-  fetchData(getConfig('urls.ingredient.recipe'), {params: {recipeId: props.recipe.id}}, ingredients, applicationError)
+  fetchData(getConfig('urls.ingredient.recipe'), {params: {recipeId: props.recipe.id}}, applicationError).then((result) => {
+    ingredients.value = result.data
+  })
 })
 
 </script>

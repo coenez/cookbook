@@ -13,16 +13,32 @@ const filters = inject('globalFilter');
 const applicationError = inject('applicationError');
 
 const data = ref([])
-const {loading} = fetchData(getConfig('urls.recipe.list'), {}, data, applicationError)
+const loading = ref(true)
+
+fetchData(getConfig('urls.recipe.list'), {}, applicationError).then((result)=>{
+  loading.value = false
+  data.value = result.data
+});
 
 //watch local searchterm change to trigger a reload
-watch(localSearchTerm, debounce(() => {
-  console.log('search has changed')
-}, 1000));
+watch(localSearchTerm, debounce(async () => {
+  loading.value = true
+  data.value = [];
+  let params = {
+    params: {
+      search: localSearchTerm.value
+    }
+  }
 
-watch(filters, debounce(() => {
+  fetchData(getConfig('urls.recipe.list'), params, applicationError).then((result) => {
+    data.value = result.data
+    loading.value = false
+  })
+}, 500));
+
+watch(filters, () => {
   console.log('the filters are changed', filters)
-}, 1000));
+});
 
 </script>
 

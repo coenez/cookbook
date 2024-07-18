@@ -12,7 +12,9 @@ const props = defineProps({
 })
 
 onMounted(() => {
-  fetchData(getConfig('urls.recipe.get'), {params: {id: props.id}}, recipe, applicationError)
+  fetchData(getConfig('urls.recipe.get'), {params: {id: props.id}}, applicationError).then((result) => {
+    recipe.value = result.data
+  })
 })
 </script>
 

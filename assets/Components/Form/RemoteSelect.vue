@@ -17,7 +17,11 @@ const props = defineProps({
 
 const data = ref([])
 const returnObject = props.itemValue === ''
-const {loading} = fetchData(props.url, {}, data)
+const loading = ref(true)
+fetchData(props.url, {}).then((result)=> {
+  loading.value = false
+  data.value = result.data
+})
 
 </script>
 
