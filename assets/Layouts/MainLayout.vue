@@ -14,7 +14,7 @@
         app
     />
     <v-main class="justify-center px-5 mt-5" style="min-height: 300px;">
-      <RouterView />
+      <RouterView :key="$route.fullPath" />
     </v-main>
 
     <v-footer name="footer" app>
