@@ -36,8 +36,20 @@ watch(localSearchTerm, debounce(async () => {
   })
 }, 500));
 
+//watch filters to trigger a reload
 watch(filters, () => {
-  console.log('the filters are changed', filters)
+  loading.value = true
+  data.value = [];
+  let params = {
+    params: {
+      filters: JSON.stringify(filters.value)
+    }
+  }
+
+  fetchData(getConfig('urls.recipe.list'), params, applicationError).then((result) => {
+    data.value = result.data
+    loading.value = false
+  })
 });
 
 </script>

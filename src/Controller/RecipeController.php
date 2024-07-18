@@ -13,7 +13,12 @@ class RecipeController extends BaseController
     #[Route('/recipe/list', name: 'app_recipe_list')]
     public function list(RecipeRepository $recipeRepository, Request $request): Response
     {
-        return $this->fetchList($recipeRepository, $request);
+        $filters = $request->get('filters');
+        if ($filters) {
+            return $this->json($recipeRepository->findByFilters(json_decode($filters)));
+        } else {
+            return $this->fetchList($recipeRepository, $request);
+        }
     }
 
     #[Route('/recipe/get', name: 'app_recipe_get')]
