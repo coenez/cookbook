@@ -7,6 +7,7 @@ import LabelList from './Pages/Label/List.vue'
 import UnitList from './Pages/Unit/List.vue'
 import RecipeView from './Pages/Recipe/View.vue'
 import RecipeNew from './Pages/Recipe/New.vue'
+import RecipeEdit from './Pages/Recipe/Edit.vue'
 
 const routes = [
     {
@@ -58,6 +59,15 @@ const routes = [
         name: 'recipeView',
         path: '/recipe/:id',
         component: RecipeView,
+        props: true,
+        meta: {
+            main: false,
+        }
+    },
+    {
+        name: 'recipeEdit',
+        path: '/recipe/edit/:id',
+        component: RecipeEdit,
         props: true,
         meta: {
             main: false,

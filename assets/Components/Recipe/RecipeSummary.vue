@@ -22,6 +22,12 @@ const textSummary = props.recipe.preparation.slice(0, 200) + '...'
           text="Bekijk recept"
           variant="text"
       ></v-btn>
+      <v-btn
+          :to="{name:'recipeEdit', params: {id:recipe.id}}"
+          color="secundary"
+          text="Bewerk recept"
+          variant="text"
+      ></v-btn>
     </v-card-actions>
   </v-card>
 </template>
