@@ -2,9 +2,10 @@
 
 import RemoteSelect from "../Form/RemoteSelect.vue";
 import {VNumberInput} from "vuetify/lib/labs/VNumberInput";
-import {onMounted, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import axios from "axios";
 import {fetchData} from "../../Composables/fetchData";
+import IngredientEditor from "./IngredientEditor.vue";
 
 const props = defineProps({
   formText: String,
@@ -25,7 +26,7 @@ const ingredients = ref([])
 
 const labelsUrl = getConfig('urls.label.list')
 const categoryUrl = getConfig('urls.category.list')
-const ingredientUrl = getConfig('urls.ingredient.list')
+const applicationError = inject('applicationError');
 
 // fetch existing record if provided an id
 onMounted(() => {
@@ -41,7 +42,6 @@ onMounted(() => {
   }
 })
 
-
 const save = () => {
   console.log('save btn clicked', recipe.value, ingredients.value)
 
@@ -51,10 +51,8 @@ const save = () => {
   }).then(response => {
     recipe.value = response.data.recipe;
     ingredients.value = response.data.ingredients;
-
-
   }).catch(error => {
-    console.error(error)
+    applicationError.value = error.response.data
   })
 }
 
@@ -67,22 +65,16 @@ const cancel = () => {
   {{formText}}
   <br/><br/>
   <v-form @submit.prevent>
+    <h5 class="text-primary text-h6">Algemeen</h5>
     <v-text-field v-model="recipe.name" label="Naam" />
     <RemoteSelect v-model="recipe.category" :url="categoryUrl" label="Categorie" />
     <v-row>
-      <v-col cols="6"><v-number-input v-model="recipe.duration" label="Bereidingstijd (minuten)" control-variant="split" :min="1" /></v-col>
-      <v-col cols="6"><v-number-input v-model="recipe.portions" label="Porties" control-variant="split" :min="1" /></v-col>
+      <v-col cols="6"><v-number-input v-model="recipe.duration" label="Bereidingstijd (minuten)" :min="1" /></v-col>
+      <v-col cols="6"><v-number-input v-model="recipe.portions" label="Porties" :min="1" /></v-col>
     </v-row>
     <RemoteSelect v-model="recipe.labels" :url="labelsUrl" label="Labels" multiple chips />
-    <v-row>
-      <v-col cols="12"><RemoteSelect v-model="ingredients" :url="ingredientUrl" label="Ingredienten" multiple chips /></v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
-        Build ingredient input here based on selected ingredients
-        <br/><br/><br/>
-      </v-col>
-    </v-row>
+
+    <IngredientEditor :ingredients="ingredients" />
 
     <h5 class="text-primary text-h6">Afbeeldingen</h5>
     <v-row>

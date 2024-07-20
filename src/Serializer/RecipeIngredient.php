@@ -20,6 +20,7 @@ class RecipeIngredient {
         $serialized = $this->serializer->normalize($recipeIngredient, null, [AbstractNormalizer::ATTRIBUTES => [
             'amount',
             'ingredient' => [
+                'id',
                 'name',
                 'unit' => [
                     'name'
@@ -29,6 +30,7 @@ class RecipeIngredient {
         ]);
 
         return [
+            'id' => $serialized['ingredient']['id'],
             'name' => $serialized['ingredient']['name'],
             'unit' => $serialized['ingredient']['unit']['name'],
             'amount' => $serialized['amount']
