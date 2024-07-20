@@ -7,18 +7,19 @@ import {debounce} from "lodash/function";
 import {fetchData} from "../../Composables/fetchData";
 
 const localSearchTerm = useGlobalSearchTerm(inject('globalSearchTerm'));
-
 const filters = inject('globalFilter');
-
 const applicationError = inject('applicationError');
-
 const data = ref([])
 const loading = ref(true)
 
-fetchData(getConfig('urls.recipe.list'), {}, applicationError).then((result)=>{
-  loading.value = false
-  data.value = result.data
-});
+const loadData = (params) => {
+  fetchData(getConfig('urls.recipe.list'), params, applicationError).then((result)=>{
+    loading.value = false
+    data.value = result.data
+  });
+}
+
+loadData({})
 
 //watch local searchterm change to trigger a reload
 watch(localSearchTerm, debounce(async () => {
@@ -29,11 +30,7 @@ watch(localSearchTerm, debounce(async () => {
       search: localSearchTerm.value
     }
   }
-
-  fetchData(getConfig('urls.recipe.list'), params, applicationError).then((result) => {
-    data.value = result.data
-    loading.value = false
-  })
+  loadData(params)
 }, 500));
 
 //watch filters to trigger a reload
@@ -46,10 +43,7 @@ watch(filters, () => {
     }
   }
 
-  fetchData(getConfig('urls.recipe.list'), params, applicationError).then((result) => {
-    data.value = result.data
-    loading.value = false
-  })
+  loadData(params)
 });
 
 </script>
