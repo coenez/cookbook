@@ -1,25 +1,15 @@
 <script setup>
 
 import RecipeSubTitle from "./RecipeSubTitle.vue";
-import {inject, onMounted, ref, watch} from "vue";
-import {fetchData} from "../../Composables/fetchData";
+import {ref} from "vue";
 import PortionCalculator from "./PortionCalculator.vue";
 
 const props = defineProps({
-  recipe: Object
+  recipe: Object,
+  ingredients: Array
 })
 
-const ingredients = ref([])
-const applicationError = inject('applicationError')
 const showPortionSlider = ref(false)
-
-
-onMounted(() => {
-  fetchData(getConfig('urls.ingredient.recipe'), {params: {recipeId: props.recipe.id}}, applicationError).then((result) => {
-    ingredients.value = result.data
-  })
-})
-
 </script>
 
 <template>
