@@ -41,4 +41,19 @@ class RecipeRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    private function nameToSlug($name) {
+        return str_replace(' ','', trim(strtolower($name)));
+    }
+
+    public function findBySlug(string $name): ?Recipe
+    {
+        $query = $this->createQueryBuilder('r');
+        $result = $query
+            ->where("REPLACE(TRIM(LOWER(r.name)), ' ','') = :name")
+            ->setParameter('name', $this->nameToSlug($name))
+            ->getQuery()->getResult();
+
+        return count($result) ? $result[0] : null;
+    }
+
 }
