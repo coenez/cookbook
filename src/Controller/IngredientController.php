@@ -51,12 +51,8 @@ class IngredientController extends BaseController
     #[Route('/ingredient/recipe', name: 'app_ingredient_recipe_get')]
     public function getByRecipe(RecipeIngredientRepository $recipeIngredientRepository, RecipeIngredientSerializer $serializer, Request $request): Response
     {
-        $data = $recipeIngredientRepository->findIngredientsByRecipeId(
-            $request->get('recipeId')
-        );
-
         $result = [];
-        foreach($data as $row) {
+        foreach($recipeIngredientRepository->findIngredientsByRecipeId($request->get('recipeId')) as $row) {
             $result[] = $serializer->serialize($row);
         }
 

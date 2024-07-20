@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Recipe;
+use App\Dto\RecipeDto;
 use App\Repository\RecipeRepository;
+use App\Service\RecipeMapper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,8 +23,20 @@ class RecipeController extends BaseController
     }
 
     #[Route('/recipe/get', name: 'app_recipe_get')]
-    public function get(RecipeRepository $recipeRepository, Request $request): Response
+    public function get(Request $request, RecipeMapper $recipeMapper): Response
     {
-        return $this->json($recipeRepository->find($request->get('id')));
+        $id = $request->get('id');
+        return $this->json($recipeMapper->get($id));
+    }
+
+    #[Route('/recipe/save', name: 'app_recipe_save')]
+    public function save(Request $request, RecipeMapper $recipeMapper)
+    {
+        $data = json_decode($request->getContent());
+        $recipeDto = new RecipeDto($data->recipe);
+        $recipeDto->ingredients = $data->ingredients;
+
+        return $this->json($recipeMapper->save($recipeDto));
+
     }
 }
