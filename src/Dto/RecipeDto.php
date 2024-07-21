@@ -3,7 +3,7 @@
 namespace App\Dto;
 
 class RecipeDto extends AbstractDto {
-    public int $id;
+    public ?int $id;
     public string $name;
     public object $category;
     public int $duration;

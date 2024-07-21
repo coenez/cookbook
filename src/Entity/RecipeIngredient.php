@@ -15,11 +15,11 @@ class RecipeIngredient
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Recipe::class)]
-    #[ORM\JoinColumn(name: 'recipe_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'recipe_id', referencedColumnName: 'id', nullable: false)]
     private Recipe $recipe;
 
     #[ORM\ManyToOne(targetEntity: Ingredient::class)]
-    #[ORM\JoinColumn(name: 'ingredient_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'ingredient_id', referencedColumnName: 'id', nullable: false)]
     private Ingredient $ingredient;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: false)]

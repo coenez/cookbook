@@ -25,4 +25,14 @@ class RecipeIngredientRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function deleteFromRecipe(int $recipeId)
+    {
+        $this->createQueryBuilder('ri')
+            ->delete()
+            ->where('ri.recipe= :recipe')
+            ->setParameter('recipe', $recipeId)
+            ->getQuery()
+            ->execute();
+    }
 }

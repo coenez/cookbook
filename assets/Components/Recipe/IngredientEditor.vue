@@ -31,7 +31,7 @@ fetchData(getConfig('urls.unit.list')).then((result) => {
             item-title="name"
             item-value="id"
             :items="availableIngredients"
-            return-object>
+            >
 
           <template v-slot:prepend>
             <v-icon icon="mdi-plus" color="primary"/>
@@ -53,7 +53,7 @@ fetchData(getConfig('urls.unit.list')).then((result) => {
             item-title="name"
             item-value="id"
             :items="availableUnits"
-            return-object>
+            >
           <template v-slot:append v-if="ingredients.length > 1">
             <v-icon icon="mdi-minus" color="secondary"/>
           </template>
