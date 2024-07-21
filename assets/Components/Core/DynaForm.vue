@@ -1,6 +1,5 @@
 
-<script setup>
-/**
+<script setup>/**
  *
  * DynaForm
  * a component that can render a form based on an array with field configurations.
@@ -21,6 +20,8 @@
  * ]
  *
  */
+import axios from "axios";
+import {inject} from "vue";
 
 const props = defineProps({
   formFields: {
@@ -34,15 +35,29 @@ const props = defineProps({
   newLabel: {
     type: String,
     default: 'Nieuw'
-  }
+  },
+  endPoint: {
+    type: String,
+    required: true
+  },
 })
 
 const emit = defineEmits(['DfSave', 'DfCancel'])
 const activeRecord = defineModel('activeRecord')
+const applicationError = inject('applicationError');
 
 //compile form title
 function getFormTitle() {
   return (activeRecord.value.id > 0 ? 'Bewerk' : props.newLabel) + ' ' + props.name;
+}
+
+function save() {
+  axios.put(props.endPoint, activeRecord.value).then(response => {
+    activeRecord.value = response.data;
+    emit('DfSave', activeRecord.value)
+  }).catch(error => {
+    applicationError.value = error.response.data
+  })
 }
 
 </script>
@@ -67,7 +82,7 @@ function getFormTitle() {
         </v-row>
         <v-row justify="center">
           <v-col cols="4">
-            <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="emit('DfSave')">Opslaan</v-btn>
+            <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="save">Opslaan</v-btn>
             <v-btn variant="outlined" type="cancel" @click="emit('DfCancel')">Annuleren</v-btn>
           </v-col>
         </v-row>

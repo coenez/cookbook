@@ -81,20 +81,13 @@ function deleteItem (item) {
 }
 
 function save() {
-  axios.put(props.endPoints.put, activeRecord.value).then(response => {
-    activeRecord.value = response.data;
-
     if (activeIndex.value > -1) {
       //existing record
       Object.assign(data.value[activeIndex.value], activeRecord.value)
     } else {
       data.value.push(activeRecord.value)
     }
-    close();
-  }).catch(error => {
-    applicationError.value = error.response.data
-    close();
-  })
+    close()
 }
 
 function close() {
@@ -152,7 +145,7 @@ function deleteConfirmed() {
 
   <!--FORM-->
   <v-dialog v-model="showDialog">
-    <DynaForm :name="entityName" :form-fields="formFields" :active-record="activeRecord" :new-label="newLabel" @df-save="save" @df-cancel="close"/>
+    <DynaForm :name="entityName" :end-point="endPoints.put" :form-fields="formFields" :active-record="activeRecord" :new-label="newLabel" @df-save="save" @df-cancel="close"/>
   </v-dialog>
 
   <!-- Delete dialog -->
