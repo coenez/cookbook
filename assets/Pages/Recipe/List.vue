@@ -19,7 +19,11 @@ const loadData = (params) => {
   });
 }
 
-loadData({})
+loadData({
+  params: {
+    orderBy:  'created|DESC'
+  }
+})
 
 //watch local searchterm change to trigger a reload
 watch(localSearchTerm, debounce(async () => {
