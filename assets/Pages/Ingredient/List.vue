@@ -33,13 +33,6 @@ const formFields = [
       name: 'name',
       label: 'Naam'
     },
-    {
-      type: 'RemoteSelect',
-      name: 'unit',
-      label: 'Eenheid',
-      itemValue: 'id',
-      url: getConfig('urls.unit.list')
-    },
   ],
 ]
 

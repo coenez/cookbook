@@ -39,7 +39,7 @@ const showPortionSlider = ref(false)
                     <v-checkbox-btn></v-checkbox-btn>
                   </v-list-item-action>
                 </template>
-                {{ingredient.name}}: {{ingredient.amount}} {{ingredient.unit}}
+                {{ingredient.name}}: {{ingredient.amount}} {{ingredient.unit.name}}
               </v-list-item>
             </template>
           </v-list>

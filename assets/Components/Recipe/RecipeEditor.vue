@@ -39,6 +39,15 @@ onMounted(() => {
       recipe.value = result.data.recipe
       ingredients.value = result.data.ingredients
     })
+  } else {
+    ingredients.value = [
+      {
+        id: null,
+        name: '',
+        unit: '',
+        amount: 1
+      }
+    ]
   }
 })
 

@@ -25,6 +25,10 @@ class RecipeIngredient
     #[ORM\Column(type: Types::SMALLINT, nullable: false)]
     private int $amount;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Unit $unit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class RecipeIngredient
     public function setAmount(int $amount): static
     {
         $this->amount = $amount;
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): static
+    {
+        $this->unit = $unit;
+
         return $this;
     }
 }
