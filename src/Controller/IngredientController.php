@@ -31,10 +31,7 @@ class IngredientController extends BaseController
             $ingredient = $ingredientRepository->find($request->get('id'));
         }
 
-        $unit = $unitRepository->find($request->get('unit'));
-
         $ingredient->setName($request->get('name'));
-        $ingredient->setUnit($unit);
 
         $entityManager->persist($ingredient);
         $entityManager->flush();
