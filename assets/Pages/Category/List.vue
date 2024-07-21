@@ -1,5 +1,6 @@
 <script setup>
 import CrudDataTable from "../../Components/Core/CrudDataTable.vue"
+import {useModel} from "../../Composables/useModel";
 
 const sortBy = [{ key: 'name', order: 'asc' }]
 const endPoints = {
@@ -14,10 +15,7 @@ const headers = [
   },
 ];
 
-const dataModel = {
-  id: 0,
-  name: '',
-}
+const dataModel = useModel('category')
 
 const entityName = 'Categorie'
 

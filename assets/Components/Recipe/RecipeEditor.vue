@@ -6,21 +6,15 @@ import {inject, onMounted, ref} from "vue";
 import axios from "axios";
 import {fetchData} from "../../Composables/fetchData";
 import IngredientEditor from "./IngredientEditor.vue";
+import {useModel} from "../../Composables/useModel"
 
 const props = defineProps({
   formText: String,
   recipeId: String,
 })
 
-const recipe = ref({
-  id: props.recipeId,
-  name: '',
-  category: null,
-  duration: 30,
-  portions: 2,
-  labels: [],
-  preparation: '',
-})
+const recipe = ref(useModel('recipe'))
+
 
 const ingredients = ref([])
 
@@ -41,12 +35,7 @@ onMounted(() => {
     })
   } else {
     ingredients.value = [
-      {
-        id: null,
-        name: '',
-        unit: '',
-        amount: 1
-      }
+      useModel('recipeIngredient')
     ]
   }
 })

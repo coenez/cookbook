@@ -1,5 +1,6 @@
 <script setup>
 import CrudDataTable from "../../Components/Core/CrudDataTable.vue"
+import {useModel} from "../../Composables/useModel";
 
 const sortBy = [{ key: 'name', order: 'asc' }]
 const endPoints = {
@@ -19,11 +20,7 @@ const headers = [
 
 ];
 
-const dataModel = {
-  id: 0,
-  name: '',
-  value: '',
-}
+const dataModel = useModel('unit')
 
 const entityName = 'Eenheid'
 
