@@ -1,6 +1,6 @@
 <script setup>
 
-import RecipeEditor from "../../Components/Recipe/RecipeEditor.vue";
+import RecipeEditor from "../../Components/Recipe/Editor/RecipeEditor.vue";
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 <script setup>
 import CrudDataTable from "../../Components/Core/CrudDataTable.vue"
 import {useModel} from "../../Composables/useModel";
+import {rules} from "../../Composables/rules";
 
 const sortBy = [{ key: 'name', order: 'asc' }]
 const endPoints = {
@@ -24,7 +25,8 @@ const formFields = [
       {
         type: 'v-text-field',
         name: 'name',
-        label: 'Naam'
+        label: 'Naam',
+        rules: rules.required
       },
   ],
 ]
