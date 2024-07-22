@@ -59,7 +59,7 @@ class RecipeMapper {
             //if not yours, then error
 
             //clear out the existing ingredients to prevent duplicates
-            $this->recipeIngredientRepository->deleteFromRecipe($recipeDto->id);
+            $this->recipeIngredientRepository->deleteIngredientsFromRecipe($recipeDto->id);
         } else {
             //validate existing recipes by name
             if ($this->recipeRepository->findBySlug($recipeDto->name)) {
