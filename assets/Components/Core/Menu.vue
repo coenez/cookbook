@@ -7,7 +7,9 @@
   const globalSearchTerm = inject('globalSearchTerm')
   const showSearchBar = ref(false)
   const showSearchIcon = computed(() => {
-    return router.currentRoute.value.name !== 'recipeView'
+    return router.currentRoute.value.name !== 'recipeView' &&
+        router.currentRoute.value.name !== 'recipeNew' &&
+        router.currentRoute.value.name !== 'recipeEdit'
   })
 
   const showFilterDrawer = ref(false)
