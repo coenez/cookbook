@@ -1,5 +1,7 @@
 <script setup>
 import {calculateDuration} from "../../Composables/calculateDuration";
+import {ref} from "vue";
+import ShareDialog from "../Core/ShareDialog.vue";
 
 const props = defineProps({
   recipe: Object,
@@ -10,14 +12,14 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['editPortion'])
-
 const duration = calculateDuration(props.recipe.duration);
+const showShareDialog = ref(false)
 
-function redirect(type, object) {
+const redirect = (type, object) => {
   console.log('redirect to', object, 'from', type)
 }
 
-function changePortion() {
+const changePortion = () => {
   emit('editPortion')
 }
 </script>
@@ -30,6 +32,11 @@ function changePortion() {
     <v-tooltip text="show user name here">
       <template v-slot:activator="{ props }">
         <v-icon icon="mdi-account" v-bind="props" class="ml-2 cursor-pointer"/>
+      </template>
+    </v-tooltip>
+    <v-tooltip text="Deel dit recept">
+      <template v-slot:activator="{ props }">
+        <v-icon icon="mdi-share" v-bind="props" @click="showShareDialog = !showShareDialog" class="ml-2 cursor-pointer"/>
       </template>
     </v-tooltip>
   </v-card-subtitle>
@@ -46,8 +53,9 @@ function changePortion() {
       {{label.name}}
     </v-chip>
   </v-card-text>
+
+  <ShareDialog v-model="showShareDialog" :recipe="recipe"/>
 </template>
 
-<style scoped>
 
-</style>
+

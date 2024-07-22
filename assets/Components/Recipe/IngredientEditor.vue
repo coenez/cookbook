@@ -162,7 +162,3 @@ const passSearchedUnit = (event) => {
   </v-dialog>
 
 </template>
-
-<style scoped>
-
-</style>
