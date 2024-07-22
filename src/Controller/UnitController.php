@@ -39,4 +39,10 @@ class UnitController extends BaseController
 
         return $this->json($unit);
     }
+
+    #[Route('/unit/delete', name: 'app_unit_delete')]
+    public function delete(UnitRepository $unitRepository, Request $request): Response
+    {
+        return $this->deleteEntity($unitRepository, $request);
+    }
 }

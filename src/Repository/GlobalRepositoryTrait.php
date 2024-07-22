@@ -47,4 +47,13 @@ trait GlobalRepositoryTrait {
 
         return count($result) ? $result[0] : null;
     }
+
+    public function deleteEntity(int $id)
+    {
+        $query = $this->createQueryBuilder('c');
+        return $query->delete()->where('c.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->execute();
+    }
 }

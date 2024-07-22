@@ -80,14 +80,16 @@ function deleteItem (item) {
   showDeleteDialog.value = true
 }
 
-function save() {
-    if (activeIndex.value > -1) {
-      //existing record
-      Object.assign(data.value[activeIndex.value], activeRecord.value)
-    } else {
-      data.value.push(activeRecord.value)
-    }
-    close()
+function save(newData) {
+  activeRecord.value = newData
+
+  if (activeIndex.value > -1) {
+    //existing record
+    Object.assign(data.value[activeIndex.value], activeRecord.value)
+  } else {
+    data.value.push(activeRecord.value)
+  }
+  close()
 }
 
 function close() {
@@ -116,9 +118,19 @@ function loadItems(params) {
 
 function deleteConfirmed() {
   //sync to backend
-  if (data.value[activeIndex.value]) {
-    delete data.value[activeIndex.value];
-  }
+  let currentIndex = activeIndex.value;
+  axios.delete(props.endPoints.delete, {
+    params: {
+      id: activeRecord.value.id
+    }
+  }).then(response => {
+    if (data.value[currentIndex]) {
+      delete data.value[currentIndex];
+    }
+  }).catch(error => {
+    applicationError.value = error.response.data
+  })
+
   close();
 }
 </script>

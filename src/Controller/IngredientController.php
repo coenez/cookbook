@@ -61,4 +61,10 @@ class IngredientController extends BaseController
 
         return $this->json($result);
     }
+
+    #[Route('/ingredient/delete', name: 'app_ingredient_delete')]
+    public function delete(IngredientRepository $ingredientRepository, Request $request): Response
+    {
+        return $this->deleteEntity($ingredientRepository, $request);
+    }
 }

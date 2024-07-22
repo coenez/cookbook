@@ -38,4 +38,10 @@ class CategoryController extends BaseController
     {
         return $this->json($category);
     }
+
+    #[Route('/category/delete', name: 'app_category_delete')]
+    public function delete(CategoryRepository $categoryRepository, Request $request): Response
+    {
+        return $this->deleteEntity($categoryRepository, $request);
+    }
 }

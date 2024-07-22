@@ -38,4 +38,10 @@ class LabelController extends BaseController
     {
         return $this->json($label);
     }
+
+    #[Route('/label/delete', name: 'app_label_delete')]
+    public function delete(LabelRepository $labelRepository, Request $request): Response
+    {
+        return $this->deleteEntity($labelRepository, $request);
+    }
 }

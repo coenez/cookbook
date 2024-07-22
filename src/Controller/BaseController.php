@@ -27,6 +27,14 @@ class BaseController extends AbstractController {
         ]);
     }
 
+    public function deleteEntity(ServiceEntityRepository $repository, Request $request): JsonResponse
+    {
+        $repository->deleteEntity($request->get('id'));
+        return $this->json([
+            'result' => true
+        ]);
+    }
+
     public function convertJsonPayload(Request $request): Request {
         $request->request->replace(json_decode($request->getContent(), true));
         return $request;
