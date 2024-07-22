@@ -2,9 +2,10 @@
 
 import {VNumberInput} from "vuetify/lib/labs/VNumberInput";
 import {ref} from "vue";
-import {fetchData} from "../../Composables/fetchData";
-import {useModel} from "../../Composables/useModel";
-import DynaForm from "../Core/DynaForm.vue";
+import {fetchData} from "../../../Composables/fetchData";
+import {useModel} from "../../../Composables/useModel";
+import {rules} from "../../../Composables/rules";
+import DynaForm from "../../Core/DynaForm.vue";
 
 const recipeIngredients = defineModel('ingredients')
 const availableIngredients = ref([])
@@ -34,7 +35,8 @@ const ingredientformFields = [
     {
       type: 'v-text-field',
       name: 'name',
-      label: 'Naam'
+      label: 'Naam',
+      rules: rules.required
     },
   ],
 ]
@@ -58,12 +60,19 @@ const passSearchedIngredient = (event) => {
 const showUnitForm = ref(false)
 const unitSaveUrl = getConfig('urls.unit.save')
 const newUnit = ref(useModel('unit'))
-const unitformFields = [
+const unitFormFields = [
   [
     {
       type: 'v-text-field',
       name: 'name',
-      label: 'Naam'
+      label: 'Naam',
+      rules: rules.required
+    },
+    {
+      type: 'v-text-field',
+      name: 'value',
+      label: 'Waarde',
+      rules: rules.required
     },
   ],
 ]
@@ -71,8 +80,10 @@ const unitformFields = [
 const addUnitToAvailable = (newData) => {
   showUnitForm.value = false
   availableUnits.value.push(newData)
-  newUnit.value = useModel('ingredient')
+  newUnit.value = useModel('unit')
 
+
+  //auto select the new unit
   let lastIndex = recipeIngredients.value.length -1;
 
   recipeIngredients.value[lastIndex].unit.id = newData.id;
@@ -96,6 +107,7 @@ const passSearchedUnit = (event) => {
             item-title="name"
             item-value="id"
             :items="availableIngredients"
+            :rules="rules.required"
             @input.native="passSearchedIngredient"
             >
 
@@ -112,7 +124,9 @@ const passSearchedUnit = (event) => {
         <v-number-input
             v-model="ingredient.amount"
             :min="0"
+            :step="0.25"
             label="Aantal"
+            :rules="rules.aboveZero"
         />
       </v-col>
       <v-col cols="3">
@@ -123,6 +137,7 @@ const passSearchedUnit = (event) => {
             item-title="name"
             item-value="id"
             :items="availableUnits"
+            :rules="rules.required"
             @input.native="passSearchedUnit"
             >
           <template v-slot:append v-if="recipeIngredients.length > 1">
@@ -153,7 +168,7 @@ const passSearchedUnit = (event) => {
     <DynaForm
         :active-record="newUnit"
         :end-point="unitSaveUrl"
-        :form-fields="unitformFields"
+        :form-fields="unitFormFields"
         name="Eenheid"
         new-label="Nieuwe"
         @df-save="addUnitToAvailable"
