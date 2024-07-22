@@ -6,7 +6,8 @@ import {rules} from "../../Composables/rules";
 const sortBy = [{ key: 'name', order: 'asc' }]
 const endPoints = {
   get: getConfig('urls.label.list'),
-  put: getConfig('urls.label.save')
+  put: getConfig('urls.label.save'),
+  delete: getConfig('urls.label.delete')
 }
 
 const headers = [
