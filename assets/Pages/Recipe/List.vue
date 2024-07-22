@@ -53,6 +53,14 @@ watch(filters, () => {
 </script>
 
 <template>
+  <v-fab
+      :to="{name:'recipeNew'}"
+      icon="mdi-plus"
+      color="primary"
+      location="top"
+      fixed
+      app
+  />
   <v-card flat>
     <v-card-title class="text-secondary text-h4">Recepten</v-card-title>
     <v-card-text>
