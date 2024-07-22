@@ -21,7 +21,7 @@
  *
  */
 import axios from "axios";
-import {inject} from "vue";
+import {inject, ref} from "vue";
 
 const props = defineProps({
   formFields: {
@@ -51,14 +51,19 @@ function getFormTitle() {
   return (activeRecord.value.id > 0 ? 'Bewerk' : props.newLabel) + ' ' + props.name;
 }
 
-function save() {
-  axios.put(props.endPoint, activeRecord.value).then(response => {
-    activeRecord.value = response.data;
-    emit('DfSave', activeRecord.value)
-  }).catch(error => {
-    applicationError.value = error.response.data
-  })
+const save = async () => {
+  const {valid} = await form.value.validate()
+  if (valid) {
+    axios.put(props.endPoint, activeRecord.value).then(response => {
+      activeRecord.value = response.data;
+      emit('DfSave', activeRecord.value)
+    }).catch(error => {
+      applicationError.value = error.response.data
+    })
+  }
 }
+
+const form = ref(null)
 
 </script>
 
@@ -66,7 +71,7 @@ function save() {
   <v-card>
     <v-card-title class="bg-primary" color="buttonText">{{getFormTitle()}}</v-card-title>
     <v-card-text>
-      <v-form @submit.prevent>
+      <v-form ref="form" @submit.prevent="save">
         <v-row v-for="(fieldRow) in formFields">
           <v-col v-for="(field) in fieldRow">
             <component
@@ -75,6 +80,7 @@ function save() {
                 v-model="activeRecord[field.name]"
                 :name="field.name"
                 :label="field.label"
+                :rules="field.rules ?? []"
                 :url="field.url ?? ''"
                 :itemValue="field.itemValue ?? ''"
             />
@@ -82,7 +88,7 @@ function save() {
         </v-row>
         <v-row justify="center">
           <v-col cols="4">
-            <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" @click="save">Opslaan</v-btn>
+            <v-btn variant="flat" base-color="primary" class="mr-4" type="submit" >Opslaan</v-btn>
             <v-btn variant="outlined" type="cancel" @click="emit('DfCancel')">Annuleren</v-btn>
           </v-col>
         </v-row>
