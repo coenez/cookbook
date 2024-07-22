@@ -42,5 +42,5 @@ const models = {
 };
 
 export function useModel(name) {
-    return models[name] ? Object.assign({}, models[name]) : null;
+    return models[name] ? JSON.parse(JSON.stringify(models[name])) : null;
 }
