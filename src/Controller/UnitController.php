@@ -26,7 +26,13 @@ class UnitController extends BaseController
             $unit = $unitRepository->find($data->get('id'));
         }
 
-        $unit->setName($data->get('name'));
+        //check by slug
+        $name = $data->get('name');
+        if ($unitRepository->findBySlug($name)) {
+            throw new \Exception("Unit with name [$name] or alike, already exists.");
+        }
+
+        $unit->setName($name);
         $unit->setValue($data->get('value'));
         $entityManager->persist($unit);
         $entityManager->flush();

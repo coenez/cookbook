@@ -22,7 +22,7 @@ class IngredientController extends BaseController
     }
 
     #[Route('/ingredient/save', name: 'app_ingredient_save')]
-    public function save(IngredientRepository $ingredientRepository, UnitRepository $unitRepository, Request $request, EntityManagerInterface $entityManager)
+    public function save(IngredientRepository $ingredientRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $request = $this->convertJsonPayload($request);
 
@@ -31,7 +31,13 @@ class IngredientController extends BaseController
             $ingredient = $ingredientRepository->find($request->get('id'));
         }
 
-        $ingredient->setName($request->get('name'));
+        //check by slug
+        $name = $request->get('name');
+        if ($ingredientRepository->findBySlug($name)) {
+            throw new \Exception("Ingredient with name [$name] or alike, already exists.");
+        }
+
+        $ingredient->setName($name);
 
         $entityManager->persist($ingredient);
         $entityManager->flush();

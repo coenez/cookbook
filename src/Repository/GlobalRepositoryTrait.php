@@ -31,4 +31,20 @@ trait GlobalRepositoryTrait {
         return $query->getQuery()->getResult();
 
     }
+
+    public function nameToSlug($name): string
+    {
+        return str_replace(' ','', trim(strtolower($name)));
+    }
+
+    public function findBySlug(string $name): ?object
+    {
+        $query = $this->createQueryBuilder('c');
+        $result = $query
+            ->where("REPLACE(TRIM(LOWER(c.name)), ' ','') = :name")
+            ->setParameter('name', $this->nameToSlug($name))
+            ->getQuery()->getResult();
+
+        return count($result) ? $result[0] : null;
+    }
 }
