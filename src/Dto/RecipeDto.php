@@ -10,5 +10,6 @@ class RecipeDto extends AbstractDto {
     public int $portions;
     public string $preparation;
     public array $labels;
-    public array $ingredients;
+    public array $recipeIngredients;
+    public array $images;
 }

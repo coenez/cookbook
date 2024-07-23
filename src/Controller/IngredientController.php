@@ -5,9 +5,6 @@ namespace App\Controller;
 
 use App\Entity\Ingredient;
 use App\Repository\IngredientRepository;
-use App\Repository\RecipeIngredientRepository;
-use App\Repository\UnitRepository;
-use App\Serializer\RecipeIngredient as RecipeIngredientSerializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,17 +46,6 @@ class IngredientController extends BaseController
     public function get(Ingredient $ingredient): Response
     {
         return $this->json($ingredient);
-    }
-
-    #[Route('/ingredient/recipe', name: 'app_ingredient_recipe_get')]
-    public function getByRecipe(RecipeIngredientRepository $recipeIngredientRepository, RecipeIngredientSerializer $serializer, Request $request): Response
-    {
-        $result = [];
-        foreach($recipeIngredientRepository->findIngredientsByRecipeId($request->get('recipeId')) as $row) {
-            $result[] = $serializer->serialize($row);
-        }
-
-        return $this->json($result);
     }
 
     #[Route('/ingredient/delete', name: 'app_ingredient_delete')]

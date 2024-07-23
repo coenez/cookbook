@@ -11,7 +11,6 @@ use App\Repository\LabelRepository;
 use App\Repository\RecipeIngredientRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\UnitRepository;
-use App\Serializer\RecipeIngredient as RecipeIngredientSerializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -29,29 +28,12 @@ class RecipeMapper {
         private readonly IngredientRepository $ingredientRepository,
         private readonly UnitRepository $unitRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly RecipeIngredientSerializer $recipeIngredientSerializer
     ) {
-    }
-
-    public function get($id): array {
-        $recipe = $this->recipeRepository->find($id);
-
-        if (!$recipe) {
-            throw new NotFoundHttpException("Recipe with id [$id] not found");
-        }
-
-        $ingredients = $this->recipeIngredientRepository->findIngredientsByRecipeId($id);
-        $serializedIngredients = [];
-        foreach($ingredients as $row) {
-            $serializedIngredients[] = $this->recipeIngredientSerializer->serialize($row);
-        }
-
-        return ['recipe' => $recipe, 'ingredients' => $serializedIngredients];
     }
 
     public function save(RecipeDto $recipeDto) {
         if ($recipeDto->id) {
-            $recipe = $this->recipeRepository->find($recipeDto->id);
+            $recipe = $this->recipeRepository->get($recipeDto->id);
             if (!$recipe) {
                 throw new \Exception("Recipe with id [{$recipeDto->id}] was not found.");
             }
@@ -70,10 +52,9 @@ class RecipeMapper {
             $recipe->setCreated(new \DateTime());
         }
 
-        if (!$recipeDto->ingredients) {
+        if (empty($recipeDto->recipeIngredients)) {
             throw new NotAcceptableHttpException('Cannot save this recipe. A recipe requires ingredients');
         }
-
 
         //basics
         $recipe->setName($recipeDto->name);
@@ -99,8 +80,8 @@ class RecipeMapper {
         $this->entityManager->flush();
 
         //ingredients and their unit
-        foreach($recipeDto->ingredients as $row) {
-            $ingredient = $this->ingredientRepository->find($row->id);
+        foreach($recipeDto->recipeIngredients as $row) {
+            $ingredient = $this->ingredientRepository->find($row->ingredient->id);
             $recipeIngredient = new RecipeIngredient();
             $recipeIngredient
                 ->setRecipe($recipe)
@@ -112,7 +93,7 @@ class RecipeMapper {
         }
         $this->entityManager->flush();
 
-        return $this->get($recipe->getId());
+        return $this->recipeRepository->get($recipe->getId());
     }
 
     private function getUnits(): array

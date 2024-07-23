@@ -34,6 +34,23 @@ class RecipeRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function get(int $id): Recipe
+    {
+        $query = $this->createQueryBuilder('r');
+        return $query->innerJoin('r.category', 'c')
+            ->addSelect('c')
+            ->leftJoin('r.images', 'i')
+            ->addSelect('i')
+            ->leftJoin('r.labels', 'l')
+            ->addSelect('l')
+            ->innerJoin('r.recipeIngredients', 'ri')
+            ->addSelect('ri')
+            ->where('r.id = :recipeId')
+            ->setParameter('recipeId', $id)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
     public function findByFilters(object $filters): array
     {
         $query = $this->createQueryBuilder('r');

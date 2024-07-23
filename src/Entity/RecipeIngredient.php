@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RecipeIngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: RecipeIngredientRepository::class)]
 class RecipeIngredient
@@ -16,6 +17,7 @@ class RecipeIngredient
 
     #[ORM\ManyToOne(targetEntity: Recipe::class)]
     #[ORM\JoinColumn(name: 'recipe_id', referencedColumnName: 'id', nullable: false)]
+    #[Ignore]
     private Recipe $recipe;
 
     #[ORM\ManyToOne(targetEntity: Ingredient::class)]

@@ -25,10 +25,11 @@ class RecipeController extends BaseController
     }
 
     #[Route('/recipe/get', name: 'app_recipe_get')]
-    public function get(Request $request, RecipeMapper $recipeMapper): Response
+    public function get(Request $request, RecipeRepository $recipeRepository): Response
     {
         $id = $request->get('id');
-        return $this->json($recipeMapper->get($id));
+
+        return $this->json($recipeRepository->get($id));
     }
 
     #[Route('/recipe/save', name: 'app_recipe_save')]
@@ -36,7 +37,6 @@ class RecipeController extends BaseController
     {
         $data = json_decode($request->getContent());
         $recipeDto = new RecipeDto($data->recipe);
-        $recipeDto->ingredients = $data->ingredients;
 
         $imgDir = $this->getParameter('images_dir');
         //get image!
