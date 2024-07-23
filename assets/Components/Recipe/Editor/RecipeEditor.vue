@@ -15,6 +15,7 @@ const props = defineProps({
 })
 
 const recipe = ref(useModel('recipe'))
+const recipeIngredients = ref(null)
 
 //backup so we can reset to the original value that was loaded
 const originalValues = {
@@ -33,10 +34,10 @@ onMounted(() => {
         id: props.recipeId
       }
     }).then((result) => {
-      recipe.value = result.data
+      originalValues.recipe = JSON.parse(JSON.stringify(result.data))
 
-      //save the original values so we can reset back to them
-      originalValues.recipe = Object.assign({}, result.data)
+      recipe.value = result.data
+      recipeIngredients.value = result.data.recipeIngredients
     })
   }
 })
@@ -45,6 +46,8 @@ const save = async () => {
   const {valid} = await form.value.validate()
 
   if (valid) {
+    recipe.value.recipeIngredients = recipeIngredients.value;
+
     axios.put(getConfig('urls.recipe.save'), {
       recipe: recipe.value,
     }).then(response => {
@@ -57,6 +60,7 @@ const save = async () => {
 
 const cancel = () => {
   recipe.value = originalValues.recipe
+  recipeIngredients.value = recipe.value.recipeIngredients
   form.value.resetValidation();
 }
 
@@ -77,7 +81,7 @@ const form = ref(null);
     </v-row>
     <RemoteSelect v-model="recipe.labels" :url="labelsUrl" label="Labels" multiple chips />
 
-    <IngredientEditor :ingredients="recipe.recipeIngredients" />
+    <IngredientEditor :ingredients="recipeIngredients" />
 
     <h5 class="text-primary text-h6">Afbeeldingen</h5>
     <v-row>
