@@ -20,7 +20,7 @@ class RecipeController extends BaseController
         } else {
             $params = $this->extractFromRequest($request, ['search', 'orderBy', 'limit', 'offset']);
             extract($params);
-            return $this->json($recipeRepository->listBy($search ?? '', $orderBy, 0, 0, true, true));
+            return $this->json($recipeRepository->listBy($search ?? '', $orderBy));
         }
     }
 

@@ -23,22 +23,13 @@ class RecipeRepository extends ServiceEntityRepository
         string $orderBy = '',
         int $limit = 0,
         int $offset = 0,
-        bool $images = false,
-        bool $labels = false,
     ): array
     {
         $query = $this->getFindBySearchAndSortQuery($search, $orderBy, $limit, $offset);
 
         $query->innerJoin('t.category', 'c')->addSelect('c');
-
-        if ($images) {
-            $query->leftJoin('t.images', 'i')
-                ->addSelect('i');
-        }
-        if ($labels) {
-            $query->leftJoin('t.labels', 'l')
-                ->addSelect('l');
-        }
+        $query->leftJoin('t.images', 'i')->addSelect('i');
+        $query->leftJoin('t.labels', 'l')->addSelect('l');
 
         return $query->getQuery()->getResult();
     }
