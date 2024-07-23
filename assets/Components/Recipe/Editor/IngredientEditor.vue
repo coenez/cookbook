@@ -48,8 +48,8 @@ const addIngredientToAvailable = (newData) => {
 
   let lastIndex = recipeIngredients.value.length -1;
 
-  recipeIngredients.value[lastIndex].id = newData.id;
-  recipeIngredients.value[lastIndex].name = newData.name;
+  recipeIngredients.value[lastIndex].ingredient.id = newData.id;
+  recipeIngredients.value[lastIndex].ingredient.name = newData.name;
 }
 
 const passSearchedIngredient = (event) => {
@@ -82,7 +82,6 @@ const addUnitToAvailable = (newData) => {
   availableUnits.value.push(newData)
   newUnit.value = useModel('unit')
 
-
   //auto select the new unit
   let lastIndex = recipeIngredients.value.length -1;
 
@@ -98,10 +97,10 @@ const passSearchedUnit = (event) => {
 <template>
   <h5 class="text-primary text-h6">Ingredienten</h5>
   <v-row no-gutters>
-    <template v-for="(ingredient, index) in recipeIngredients">
+    <template v-for="(recipeIngredient, index) in recipeIngredients">
       <v-col cols="6">
         <v-autocomplete
-            v-model="ingredient.id"
+            v-model="recipeIngredient.ingredient.id"
             clearable
             label="Ingredient"
             item-title="name"
@@ -122,7 +121,7 @@ const passSearchedUnit = (event) => {
       </v-col>
       <v-col cols="3">
         <v-number-input
-            v-model="ingredient.amount"
+            v-model="recipeIngredient.amount"
             :min="0"
             :step="0.25"
             label="Aantal"
@@ -131,7 +130,7 @@ const passSearchedUnit = (event) => {
       </v-col>
       <v-col cols="3">
         <v-autocomplete
-            v-model="ingredient.unit.id"
+            v-model="recipeIngredient.unit.id"
             clearable
             label="Eenheid"
             item-title="name"

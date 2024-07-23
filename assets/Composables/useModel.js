@@ -27,10 +27,16 @@ const models = {
         duration: 30,
         portions: 2,
         labels: [],
+        images: [],
         preparation: '',
+        recipeIngredients: []
     },
     recipeIngredient: {
         id: null,
+        ingredient: {
+            id: null,
+            name: ''
+        },
         name: '',
         unit: {
             id: null,
@@ -39,6 +45,11 @@ const models = {
         },
         amount: 1
     },
+    image: {
+        id: null,
+        name: '',
+        path: ''
+    }
 };
 
 export function useModel(name) {
