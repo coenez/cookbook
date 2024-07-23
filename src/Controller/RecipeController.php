@@ -18,7 +18,9 @@ class RecipeController extends BaseController
         if ($filters) {
             return $this->json($recipeRepository->findByFilters(json_decode($filters)));
         } else {
-            return $this->fetchList($recipeRepository, $request);
+            $params = $this->extractFromRequest($request, ['search', 'orderBy', 'limit', 'offset']);
+            extract($params);
+            return $this->json($recipeRepository->listBy($search ?? '', $orderBy, 0, 0, true, true));
         }
     }
 
@@ -35,6 +37,9 @@ class RecipeController extends BaseController
         $data = json_decode($request->getContent());
         $recipeDto = new RecipeDto($data->recipe);
         $recipeDto->ingredients = $data->ingredients;
+
+        $imgDir = $this->getParameter('images_dir');
+        //get image!
 
         return $this->json($recipeMapper->save($recipeDto));
 

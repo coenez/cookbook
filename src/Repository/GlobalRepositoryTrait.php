@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 trait GlobalRepositoryTrait {
 
-    public function findBySearchAndSort(string $search = '', string $sort = '', int $limit = 10, int $offset = 0): array
+    protected function getFindBySearchAndSortQuery(string $search = '', string $sort = '', int $limit = 10, int $offset = 0): QueryBuilder
     {
         $alias='t';
         $query = $this->createQueryBuilder($alias);
@@ -28,8 +28,12 @@ trait GlobalRepositoryTrait {
             $query->orderBy($alias . '.name', 'ASC');
         }
 
-        return $query->getQuery()->getResult();
+        return $query;
+    }
 
+    public function findBySearchAndSort(string $search = '', string $sort = '', int $limit = 10, int $offset = 0): array
+    {
+        return $this->getFindBySearchAndSortQuery($search, $sort, $limit, $offset)->getQuery()->getResult();
     }
 
     public function nameToSlug($name): string

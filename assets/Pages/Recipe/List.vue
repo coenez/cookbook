@@ -31,7 +31,8 @@ watch(localSearchTerm, debounce(async () => {
   data.value = [];
   let params = {
     params: {
-      search: localSearchTerm.value
+      search: localSearchTerm.value,
+      orderBy:  'created|DESC'
     }
   }
   loadData(params)
@@ -43,7 +44,8 @@ watch(filters, () => {
   data.value = [];
   let params = {
     params: {
-      filters: JSON.stringify(filters.value)
+      filters: JSON.stringify(filters.value),
+      orderBy:  'created|DESC'
     }
   }
 
