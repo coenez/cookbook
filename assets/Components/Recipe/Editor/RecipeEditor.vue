@@ -15,7 +15,7 @@ const props = defineProps({
 })
 
 const recipe = ref(useModel('recipe'))
-const recipeIngredients = ref(null)
+const recipeIngredients = ref([])
 
 //backup so we can reset to the original value that was loaded
 const originalValues = {
@@ -39,6 +39,8 @@ onMounted(() => {
       recipe.value = result.data
       recipeIngredients.value = result.data.recipeIngredients
     })
+  } else {
+    recipeIngredients.value.push(useModel('recipeIngredient'))
   }
 })
 
@@ -83,15 +85,40 @@ const form = ref(null);
 
     <IngredientEditor :ingredients="recipeIngredients" />
 
-    <h5 class="text-primary text-h6">Afbeeldingen</h5>
+    <h5 class="text-primary mb-4 text-h6">Afbeeldingen</h5>
     <v-row>
-      <v-col cols="4">afbeeldingen</v-col>
-      <v-col cols="4">afbeeldingen</v-col>
-      <v-col cols="4">afbeeldingen</v-col>
+      <v-file-input
+          chips
+          class="ml-2"
+          v-model="recipe.images"
+          label="Selecteer je afbeeldingen voor dit recept"
+          prepend-icon="mdi-camera"
+          counter
+          multiple
+      ></v-file-input>
     </v-row>
-    <br/><br/><br/>
 
-    <h5 class="text-primary text-h6">Beschrijving van de bereiding</h5>
+    <v-row v-if="recipe.images.length > 0">
+      <v-col
+          v-for="image in recipe.images"
+          :key="image.id"
+          class="d-flex child-flex"
+          cols="3"
+      >
+        <v-img :src="image.path" aspect-ratio="1" cover class="bg-grey-lighten-2">
+          <template v-slot:placeholder>
+            <div class="d-flex align-center justify-center fill-height">
+              <v-progress-circular
+                  color="grey-lighten-4"
+                  indeterminate
+              ></v-progress-circular>
+            </div>
+          </template>
+        </v-img>
+      </v-col>
+    </v-row>
+
+    <h5 class="text-primary mt-4 text-h6">Beschrijving van de bereiding</h5>
     <v-row>
       <v-col cols="12"><v-textarea v-model="recipe.preparation" rows="5" :rules="rules.required"></v-textarea></v-col>
     </v-row>
