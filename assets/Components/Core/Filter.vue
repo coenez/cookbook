@@ -2,6 +2,7 @@
 
 import RemoteSelect from "../Form/RemoteSelect.vue";
 import {inject, ref, watch} from "vue";
+import {useRouter} from "vue-router";
 
 const show = defineModel('show')
 
@@ -16,6 +17,7 @@ const emit = defineEmits(['submitFilter'])
 const selectedCategory = ref(null)
 const selectedLabels = ref(null)
 const selectedIngredients = ref(null)
+const router = useRouter();
 
 if (filters.value && filters.value.category) {
   selectedCategory.value = filters.value.category
@@ -39,6 +41,10 @@ watch(filters, () => {
   }
   if (!selectedLabels.value && filters.value && filters.value.labels) {
     selectedLabels.value = filters.value.labels
+  }
+
+  if (router.currentRoute.value.name !== 'recipeList') {
+    router.push({name:'recipeList'})
   }
 });
 </script>
