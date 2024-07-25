@@ -85,12 +85,6 @@ const handleFileUpload = (event) => {
   files.value = event.target.files;
 }
 
-const removeImage = (index) => {
-  if (recipe.value.images[index]) {
-    delete recipe.value.images[index]
-  }
-}
-
 const form = ref(null);
 const editableImages = true;
 

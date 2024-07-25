@@ -18,7 +18,7 @@ const removeImage = (index) => {
       <v-col md="4" cols="6">
         <v-hover v-slot="{ isHovering, props }" v-if="image">
           <v-card variant="outlined" border="thin" :class="{ 'on-hover': isHovering }" v-bind="props">
-            <v-img :src="image.path ?? files[imageIndex]" aspect-ratio="1" cover max-height="250">
+            <v-img :src="image.path" aspect-ratio="1" cover max-height="250">
               <template v-slot:placeholder>
                 <div class="d-flex align-center justify-center fill-height">
                   <v-progress-circular
