@@ -50,9 +50,22 @@ const save = async () => {
   if (valid) {
     recipe.value.recipeIngredients = recipeIngredients.value;
 
-    axios.put(getConfig('urls.recipe.save'), {
-      recipe: recipe.value,
-    }).then(response => {
+    let formData = new FormData();
+
+    for(let i=0; i < files.value.length; i++) {
+      formData.append('files[' + i + ']', files.value[i])
+    }
+
+    formData.append('recipe', JSON.stringify(recipe.value))
+
+    axios.post(getConfig('urls.recipe.save'),
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+    ).then(response => {
       recipe.value = response.data;
     }).catch(error => {
       applicationError.value = error.response.data
@@ -64,6 +77,17 @@ const cancel = () => {
   recipe.value = originalValues.recipe
   recipeIngredients.value = recipe.value.recipeIngredients
   form.value.resetValidation();
+}
+
+const files = ref([])
+const handleFileUpload = (event) => {
+  files.value = event.target.files;
+}
+
+const removeImage = (index) => {
+  if (recipe.value.images[index]) {
+    delete recipe.value.images[index]
+  }
 }
 
 const form = ref(null);
@@ -95,27 +119,31 @@ const form = ref(null);
           prepend-icon="mdi-camera"
           counter
           multiple
+          @change="handleFileUpload( $event )"
       ></v-file-input>
     </v-row>
 
-    <v-row v-if="recipe.images.length > 0">
-      <v-col
-          v-for="image in recipe.images"
-          :key="image.id"
-          class="d-flex child-flex"
-          cols="3"
-      >
-        <v-img :src="image.path" aspect-ratio="1" cover class="bg-grey-lighten-2">
-          <template v-slot:placeholder>
-            <div class="d-flex align-center justify-center fill-height">
-              <v-progress-circular
-                  color="grey-lighten-4"
-                  indeterminate
-              ></v-progress-circular>
-            </div>
-          </template>
-        </v-img>
-      </v-col>
+    <v-row v-if="recipe.images.length > 0" align="center" class="fill-height">
+      <template v-for="(image, imageIndex) in recipe.images" :key="imageIndex">
+        <v-col md="4" cols="6">
+          <v-hover v-slot="{ isHovering, props }" v-if="image">
+
+            <v-card variant="outlined" border="thin" :class="{ 'on-hover': isHovering }" v-bind="props">
+              <v-img :src="image.path ?? files[imageIndex]" aspect-ratio="1" cover max-height="250">
+                <template v-slot:placeholder>
+                 <div class="d-flex align-center justify-center fill-height">
+                   <v-progress-circular
+                       color="grey-lighten-4"
+                       indeterminate
+                   ></v-progress-circular>
+                 </div>
+               </template>
+                <v-btn class="float-right" icon="mdi-trash-can-outline" size="x-large" @click="removeImage(imageIndex)" />
+              </v-img>
+            </v-card>
+          </v-hover>
+        </v-col>
+      </template>
     </v-row>
 
     <h5 class="text-primary mt-4 text-h6">Beschrijving van de bereiding</h5>
@@ -131,5 +159,11 @@ const form = ref(null);
 </template>
 
 <style scoped>
+.v-card {
+  transition: opacity .4s ease-in-out !important;
+}
 
+.v-card:not(.on-hover) {
+  opacity: 0.6 !important;
+}
 </style>
