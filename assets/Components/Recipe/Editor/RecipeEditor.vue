@@ -8,6 +8,7 @@ import {fetchData} from "../../../Composables/fetchData";
 import IngredientEditor from "./IngredientEditor.vue";
 import {useModel} from "../../../Composables/useModel"
 import {rules} from "../../../Composables/rules"
+import RecipeImages from "../RecipeImages.vue";
 
 const props = defineProps({
   formText: String,
@@ -91,6 +92,7 @@ const removeImage = (index) => {
 }
 
 const form = ref(null);
+const editableImages = true;
 
 </script>
 
@@ -109,6 +111,11 @@ const form = ref(null);
 
     <IngredientEditor :ingredients="recipeIngredients" />
 
+    <h5 class="text-primary mt-4 text-h6">Beschrijving van de bereiding</h5>
+    <v-row>
+      <v-col cols="12"><v-textarea v-model="recipe.preparation" rows="5" :rules="rules.required"></v-textarea></v-col>
+    </v-row>
+
     <h5 class="text-primary mb-4 text-h6">Afbeeldingen</h5>
     <v-row>
       <v-file-input
@@ -123,47 +130,11 @@ const form = ref(null);
       ></v-file-input>
     </v-row>
 
-    <v-row v-if="recipe.images.length > 0" align="center" class="fill-height">
-      <template v-for="(image, imageIndex) in recipe.images" :key="imageIndex">
-        <v-col md="4" cols="6">
-          <v-hover v-slot="{ isHovering, props }" v-if="image">
+    <RecipeImages :images="recipe.images" :editable="editableImages"/>
 
-            <v-card variant="outlined" border="thin" :class="{ 'on-hover': isHovering }" v-bind="props">
-              <v-img :src="image.path ?? files[imageIndex]" aspect-ratio="1" cover max-height="250">
-                <template v-slot:placeholder>
-                 <div class="d-flex align-center justify-center fill-height">
-                   <v-progress-circular
-                       color="grey-lighten-4"
-                       indeterminate
-                   ></v-progress-circular>
-                 </div>
-               </template>
-                <v-btn class="float-right" icon="mdi-trash-can-outline" size="x-large" @click="removeImage(imageIndex)" />
-              </v-img>
-            </v-card>
-          </v-hover>
-        </v-col>
-      </template>
-    </v-row>
-
-    <h5 class="text-primary mt-4 text-h6">Beschrijving van de bereiding</h5>
-    <v-row>
-      <v-col cols="12"><v-textarea v-model="recipe.preparation" rows="5" :rules="rules.required"></v-textarea></v-col>
-    </v-row>
-
-    <v-row justify="center">
+    <v-row justify="center" class="mt-10">
       <v-btn variant="flat" base-color="primary" class="mr-4" type="submit">Opslaan</v-btn>
       <v-btn variant="outlined" class="float-right" type="button" @click="cancel">Annuleren</v-btn>
     </v-row>
   </v-form>
 </template>
-
-<style scoped>
-.v-card {
-  transition: opacity .4s ease-in-out !important;
-}
-
-.v-card:not(.on-hover) {
-  opacity: 0.6 !important;
-}
-</style>

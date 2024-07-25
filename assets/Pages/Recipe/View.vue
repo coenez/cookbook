@@ -14,8 +14,7 @@ const props = defineProps({
 
 onMounted(() => {
   fetchData(getConfig('urls.recipe.get'), {params: {id: props.id}}, applicationError).then((result) => {
-    recipe.value = result.data.recipe
-    ingredients.value = result.data.ingredients
+    recipe.value = result.data
   })
 })
 </script>
@@ -24,5 +23,5 @@ onMounted(() => {
   <div class="text-center">
     <v-progress-circular v-if="!recipe" class="mx-auto" size="100" width="10" color="primary" indeterminate/>
   </div>
-  <RecipeDetails v-if="recipe" :recipe="recipe" :ingredients="ingredients" />
+  <RecipeDetails v-if="recipe" :recipe="recipe" />
 </template>
