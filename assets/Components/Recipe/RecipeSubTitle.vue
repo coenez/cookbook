@@ -1,6 +1,6 @@
 <script setup>
 import {calculateDuration} from "../../Composables/calculateDuration";
-import {ref} from "vue";
+import {inject, ref} from "vue";
 import ShareDialog from "../Core/ShareDialog.vue";
 
 const props = defineProps({
@@ -15,8 +15,18 @@ const emit = defineEmits(['editPortion'])
 const duration = calculateDuration(props.recipe.duration);
 const showShareDialog = ref(false)
 
+const filters = inject('globalFilter');
+
 const redirect = (type, object) => {
-  console.log('redirect to', object, 'from', type)
+  if (type === 'label') {
+    filters.value = {
+      labels: [object],
+    }
+  } else {
+    filters.value = {
+      category: object,
+    }
+  }
 }
 
 const changePortion = () => {

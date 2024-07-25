@@ -1,7 +1,7 @@
 <script setup>
 
 import RemoteSelect from "../Form/RemoteSelect.vue";
-import {inject, ref} from "vue";
+import {inject, ref, watch} from "vue";
 
 const show = defineModel('show')
 
@@ -17,6 +17,10 @@ const selectedCategory = ref(null)
 const selectedLabels = ref(null)
 const selectedIngredients = ref(null)
 
+if (filters.value && filters.value.category) {
+  selectedCategory.value = filters.value.category
+}
+
 function submitFilter() {
   //set filter values to the globalFilter
   filters.value = null;
@@ -28,6 +32,15 @@ function submitFilter() {
 
   emit('submitFilter')
 }
+
+watch(filters, () => {
+  if (!selectedCategory.value && filters.value && filters.value.category) {
+    selectedCategory.value = filters.value.category
+  }
+  if (!selectedLabels.value && filters.value && filters.value.labels) {
+    selectedLabels.value = filters.value.labels
+  }
+});
 </script>
 
 <template>
