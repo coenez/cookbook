@@ -35,13 +35,24 @@ class RecipeController extends BaseController
     #[Route('/recipe/save', name: 'app_recipe_save')]
     public function save(Request $request, RecipeMapper $recipeMapper)
     {
-        $data = json_decode($request->getContent());
-        $recipeDto = new RecipeDto($data->recipe);
+        $files = $request->files->all()['files'] ?? [];
+        $dir = $this->getParameter('images_dir');
+        $path = $this->getParameter('images_path');
 
-        $imgDir = $this->getParameter('images_dir');
-        //get image!
+        $recipe = json_decode($request->getPayload()->get('recipe'));
+
+        //process images and prepare image structure
+        foreach($files as $file) {
+            $info = pathinfo($file->getClientOriginalName());
+            $safeFileName = md5($info['filename']);
+            $newFileName = $safeFileName . '-' . uniqid() . '.' . $info['extension'];
+
+            $file->move($dir, $newFileName);
+            $recipe->images[] = (object)['id'=>null, 'name' => $info['filename'], 'path' => $path.'/'.$newFileName];
+        }
+
+        $recipeDto = new RecipeDto($recipe);
 
         return $this->json($recipeMapper->save($recipeDto));
-
     }
 }

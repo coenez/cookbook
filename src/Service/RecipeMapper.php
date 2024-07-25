@@ -3,9 +3,11 @@
 namespace App\Service;
 
 use App\Dto\RecipeDto;
+use App\Entity\Image;
 use App\Entity\Recipe;
 use App\Entity\RecipeIngredient;
 use App\Repository\CategoryRepository;
+use App\Repository\ImageRepository;
 use App\Repository\IngredientRepository;
 use App\Repository\LabelRepository;
 use App\Repository\RecipeIngredientRepository;
@@ -27,6 +29,7 @@ class RecipeMapper {
         private readonly RecipeIngredientRepository $recipeIngredientRepository,
         private readonly IngredientRepository $ingredientRepository,
         private readonly UnitRepository $unitRepository,
+        private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -42,6 +45,18 @@ class RecipeMapper {
 
             //clear out the existing ingredients to prevent duplicates
             $this->recipeIngredientRepository->deleteIngredientsFromRecipe($recipeDto->id);
+
+            //clear out images that are removed
+            if (count($recipeDto->images)) {
+                $preservedIds = array_filter(array_column($recipeDto->images, 'id'));
+                foreach($recipe->getImages() as $image) {
+                    if (!in_array($image->getId(), $preservedIds)) {
+                        $recipe->removeImage($image);
+                    }
+                }
+                $this->entityManager->persist($recipe);
+                $this->entityManager->flush();
+            }
         } else {
             //validate existing recipes by name
             if ($this->recipeRepository->findBySlug($recipeDto->name)) {
@@ -73,6 +88,17 @@ class RecipeMapper {
             foreach($recipeDto->labels as $label) {
                 $foundLabel = $this->labelRepository->find($label->id);
                 $recipe->addLabel($foundLabel);
+            }
+        }
+
+        //add new images
+        foreach($recipeDto->images as $rawImg) {
+            if (!isset($rawImg->id) && isset($rawImg->path)) {
+                $image = new Image();
+                $image->setName($rawImg->name);
+                $image->setPath($rawImg->path);
+                $recipe->addImage($image);
+                $this->entityManager->persist($image);
             }
         }
 
