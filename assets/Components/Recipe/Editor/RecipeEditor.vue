@@ -110,7 +110,6 @@ const labelFormFields = [
 ]
 
 const addLabelToAvailable = (newData) => {
-  debugger;
   showLabelForm.value = false
   availableLabels.value.push(newData)
   newLabel.value = useModel('label')
