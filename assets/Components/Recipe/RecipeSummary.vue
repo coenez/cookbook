@@ -17,24 +17,45 @@ const gotoRecipe = (id) => {
 <template>
   <v-card class="mb-8 cardOutline" border="thin" color="text" variant="outlined">
     <v-card-title class="text-primary cursor-pointer" @click="gotoRecipe(recipe.id)"> {{recipe.name}} </v-card-title>
-    <RecipeSubTitle :recipe="recipe"/>
-    <v-card-text class="mt-n4">
-      {{textSummary}}
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-          :to="{name:'recipeView', params: {id:recipe.id}}"
-          color="primary"
-          text="Bekijk recept"
-          variant="text"
-      ></v-btn>
-      <v-btn
-          :to="{name:'recipeEdit', params: {id:recipe.id}}"
-          color="secundary"
-          text="Bewerk recept"
-          variant="text"
-      ></v-btn>
-    </v-card-actions>
+    <v-row>
+      <v-col cols="2">
+        <v-img v-if="recipe.images[0]?.path" :src="recipe.images[0].path" aspect-ratio="1" cover class="ml-4 mb-4 border-thin">
+          <template v-slot:placeholder>
+            <div class="d-flex align-center justify-center fill-height">
+              <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+            </div>
+          </template>
+        </v-img>
+        <v-card v-else variant="flat">
+          <v-img  src="/images/placeholder.jpg" aspect-ratio="1" cover class="ml-4 mb-4 border-thin opacity-50">
+            <div class="d-flex align-center justify-center fill-height">
+              <v-icon icon="mdi-camera-off-outline" size="70" class="float-right"/>
+            </div>
+          </v-img>
+        </v-card>
+      </v-col>
+      <v-col cols="10">
+        <RecipeSubTitle :recipe="recipe"/>
+        <v-card-text class="mt-n4">
+          {{textSummary}}
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+              :to="{name:'recipeView', params: {id:recipe.id}}"
+              color="primary"
+              text="Bekijk recept"
+              variant="text"
+          ></v-btn>
+          <v-btn
+              :to="{name:'recipeEdit', params: {id:recipe.id}}"
+              color="secundary"
+              text="Bewerk recept"
+              variant="text"
+          ></v-btn>
+        </v-card-actions>
+      </v-col>
+    </v-row>
+
   </v-card>
 </template>
 
