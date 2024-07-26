@@ -7,7 +7,6 @@ import RecipeImages from "./RecipeImages.vue";
 
 const props = defineProps({
   recipe: Object,
-  ingredients: Array
 })
 
 const showPortionSlider = ref(false)
@@ -18,7 +17,7 @@ const editableImages = false;
   <v-card flat>
     <v-card-title class="text-secondary text-h4">{{recipe.name}}</v-card-title>
     <RecipeSubTitle :recipe="recipe" @edit-portion="showPortionSlider = !showPortionSlider" />
-    <PortionCalculator :show="showPortionSlider" :ingredients="ingredients" :portions="recipe.portions" />
+    <PortionCalculator :show="showPortionSlider" :ingredients="recipe.recipeIngredients" :portions="recipe.portions" />
   </v-card>
 
   <v-card flat class="mb-4 pb-2 mt-n4 border-b-thin">

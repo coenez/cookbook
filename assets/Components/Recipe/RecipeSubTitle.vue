@@ -2,6 +2,7 @@
 import {calculateDuration} from "../../Composables/calculateDuration";
 import {inject, ref} from "vue";
 import ShareDialog from "../Core/ShareDialog.vue";
+import {useRouter} from "vue-router";
 
 const props = defineProps({
   recipe: Object,
@@ -29,6 +30,12 @@ const redirect = (type, object) => {
   }
 }
 
+const router = useRouter()
+
+const editRecipe = (id) => {
+  router.push({name:'recipeEdit', params: {id:id}});
+}
+
 const changePortion = () => {
   emit('editPortion')
 }
@@ -47,6 +54,11 @@ const changePortion = () => {
     <v-tooltip text="Deel dit recept">
       <template v-slot:activator="{ props }">
         <v-icon icon="mdi-share" v-bind="props" @click="showShareDialog = !showShareDialog" class="ml-2 cursor-pointer"/>
+      </template>
+    </v-tooltip>
+    <v-tooltip text="Bewerk dit recept">
+      <template v-slot:activator="{ props }">
+        <v-icon icon="mdi-pencil" v-bind="props" @click="editRecipe(recipe.id)" class="ml-2 cursor-pointer"/>
       </template>
     </v-tooltip>
   </v-card-subtitle>

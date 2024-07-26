@@ -19,6 +19,8 @@ const props = defineProps({
 const recipe = ref(useModel('recipe'))
 const recipeIngredients = ref([])
 
+const flash = inject('flash')
+
 //backup so we can reset to the original value that was loaded
 const originalValues = {
   recipe: null,
@@ -74,6 +76,12 @@ const save = async () => {
         }
     ).then(response => {
       recipe.value = response.data;
+      flash.value = {
+        type: 'success',
+        title: 'Recept opgeslagen',
+        text: 'De wijzigingen zijn succesvol opgeslagen'
+      }
+      window.scrollTo(0,0);
     }).catch(error => {
       applicationError.value = error.response.data
     })
