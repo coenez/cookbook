@@ -58,7 +58,9 @@ const save = async () => {
       activeRecord.value = response.data;
       emit('DfSave', activeRecord.value)
     }).catch(error => {
-      applicationError.value = error.response.data
+      if (error.response) {
+        applicationError.value = error.response.data
+      }
     })
   }
 }

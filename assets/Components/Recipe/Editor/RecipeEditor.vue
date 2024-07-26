@@ -9,6 +9,7 @@ import IngredientEditor from "./IngredientEditor.vue";
 import {useModel} from "../../../Composables/useModel"
 import {rules} from "../../../Composables/rules"
 import RecipeImages from "../RecipeImages.vue";
+import DynaForm from "../../Core/DynaForm.vue";
 
 const props = defineProps({
   formText: String,
@@ -26,9 +27,14 @@ const originalValues = {
 const labelsUrl = getConfig('urls.label.list')
 const categoryUrl = getConfig('urls.category.list')
 const applicationError = inject('applicationError');
+const availableLabels = ref([])
 
 // fetch existing record if provided an id
 onMounted(() => {
+  fetchData(getConfig('urls.label.list'), {}).then((result)=> {
+    availableLabels.value = result.data
+  })
+
   if (props.recipeId) {
     fetchData(getConfig('urls.recipe.get'), {
       params: {
@@ -88,6 +94,35 @@ const handleFileUpload = (event) => {
 const form = ref(null);
 const editableImages = true;
 
+//new label dialog
+const showLabelForm = ref(false)
+const labelSaveUrl = getConfig('urls.label.save')
+const newLabel = ref(useModel('label'))
+const labelFormFields = [
+  [
+    {
+      type: 'v-text-field',
+      name: 'name',
+      label: 'Naam',
+      rules: rules.required
+    },
+  ],
+]
+
+const addLabelToAvailable = (newData) => {
+  debugger;
+  showLabelForm.value = false
+  availableLabels.value.push(newData)
+  newLabel.value = useModel('label')
+
+  //auto select the new unit
+  recipe.value.labels.push(newData)
+}
+
+const passSearchedLabel = (event) => {
+  newLabel.value.name = event.target.value;
+}
+
 </script>
 
 <template>
@@ -101,7 +136,18 @@ const editableImages = true;
       <v-col cols="6"><v-number-input v-model="recipe.duration" label="Bereidingstijd (minuten)" :min="1" :rules="rules.aboveZero" /></v-col>
       <v-col cols="6"><v-number-input v-model="recipe.portions" label="Porties" :min="1" :rules="rules.aboveZero" /></v-col>
     </v-row>
-    <RemoteSelect v-model="recipe.labels" :url="labelsUrl" label="Labels" multiple chips />
+    <v-autocomplete
+        v-model="recipe.labels"
+        :url="labelsUrl"
+        label="Labels"
+        item-title="name"
+        item-value="id"
+        :items="availableLabels"
+        multiple chips @input.native="passSearchedLabel" >
+      <template v-slot:no-data>
+        <v-list-item v-if="!showLabelForm" prepend-icon="mdi-plus" class="text-primary cursor-pointer" @click="showLabelForm = !showLabelForm">Maak nieuw label</v-list-item>
+      </template>
+    </v-autocomplete>
 
     <IngredientEditor :ingredients="recipeIngredients" />
 
@@ -131,4 +177,16 @@ const editableImages = true;
       <v-btn variant="outlined" class="float-right" type="button" @click="cancel">Annuleren</v-btn>
     </v-row>
   </v-form>
+
+  <v-dialog v-model="showLabelForm">
+    <DynaForm
+        :active-record="newLabel"
+        :end-point="labelSaveUrl"
+        :form-fields="labelFormFields"
+        name="Label"
+        new-label="Nieuw"
+        @df-save="addLabelToAvailable"
+        @df-cancel="showLabelForm = !showLabelForm"
+    />
+  </v-dialog>
 </template>

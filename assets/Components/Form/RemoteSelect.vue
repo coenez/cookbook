@@ -26,7 +26,7 @@ fetchData(props.url, {}).then((result)=> {
 </script>
 
 <template>
-  <v-select
+  <v-autocomplete
       clearable
       :multiple="multiple"
       :loading="loading ? 'primary' : false"
@@ -35,7 +35,7 @@ fetchData(props.url, {}).then((result)=> {
       :item-value="itemValue"
       :items="data"
       :return-object="returnObject">
-  </v-select>
+  </v-autocomplete>
 </template>
 
 
