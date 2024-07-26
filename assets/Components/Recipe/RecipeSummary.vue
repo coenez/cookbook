@@ -19,7 +19,7 @@ const gotoRecipe = (id) => {
     <v-card-title class="text-primary cursor-pointer" @click="gotoRecipe(recipe.id)"> {{recipe.name}} </v-card-title>
     <v-row>
       <v-col cols="2">
-        <v-img v-if="recipe.images[0]?.path" :src="recipe.images[0].path" aspect-ratio="1" cover class="ml-4 mb-4 border-thin">
+        <v-img v-if="recipe.images[0]?.path" :src="recipe.images[0].path" @click="gotoRecipe(recipe.id)" aspect-ratio="1" cover class="ml-4 mb-4 border-thin cursor-pointer">
           <template v-slot:placeholder>
             <div class="d-flex align-center justify-center fill-height">
               <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
@@ -27,7 +27,7 @@ const gotoRecipe = (id) => {
           </template>
         </v-img>
         <v-card v-else variant="flat">
-          <v-img  src="/images/placeholder.jpg" aspect-ratio="1" cover class="ml-4 mb-4 border-thin opacity-50">
+          <v-img  src="/images/placeholder.jpg" aspect-ratio="1" @click="gotoRecipe(recipe.id)" cover class="ml-4 mb-4 border-thin opacity-50 cursor-pointer">
             <div class="d-flex align-center justify-center fill-height">
               <v-icon icon="mdi-camera-off-outline" size="70" class="float-right"/>
             </div>
