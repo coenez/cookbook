@@ -10,7 +10,18 @@ const props = defineProps({
 })
 
 const showPortionSlider = ref(false)
-const editableImages = false;
+
+const showImageGallery = ref(false)
+const currentIndex = ref(0)
+
+const navigateImage = (step) => {
+  let nextIndex = currentIndex.value + step;
+
+  if (props.recipe.images[nextIndex]) {
+    currentIndex.value = nextIndex;
+  }
+}
+
 </script>
 
 <template>
@@ -18,6 +29,15 @@ const editableImages = false;
     <v-card-title class="text-secondary text-h4">{{recipe.name}}</v-card-title>
     <RecipeSubTitle :recipe="recipe" @edit-portion="showPortionSlider = !showPortionSlider" />
     <PortionCalculator :show="showPortionSlider" :ingredients="recipe.recipeIngredients" :portions="recipe.portions" />
+  </v-card>
+
+  <v-card flat class="mb-4">
+    <v-img v-if="recipe.images[0]?.path" :src="recipe.images[0]?.path" max-height="200" cover @click="showImageGallery = !showImageGallery"></v-img>
+    <v-img v-else src="/images/placeholder.jpg" max-height="200" cover class="opacity-50" >
+      <div class="d-flex align-center justify-center fill-height">
+        <v-icon icon="mdi-camera-off-outline" size="70" class="float-right"/>
+      </div>
+    </v-img>
   </v-card>
 
   <v-card flat class="mb-4 pb-2 mt-n4 border-b-thin">
@@ -53,12 +73,16 @@ const editableImages = false;
     </v-card-text>
   </v-card>
 
-  <v-card flat>
-    <v-card-title class="text-primary">Afbeeldingen</v-card-title>
-    <v-card-text>
-      <RecipeImages :images="recipe.images" :editable="editableImages"/>
-    </v-card-text>
-  </v-card>
+  <v-dialog v-model="showImageGallery">
+    <v-img :src="recipe.images[currentIndex].path">
+      <v-container class="fill-height pa-0" >
+        <v-row align="center" justify="space-between" >
+          <v-btn rounded="0" height="300" variant="text" icon="mdi-arrow-left" @click="navigateImage(-1)" ></v-btn>
+          <v-btn rounded="0" height="300" variant="text" icon="mdi-arrow-right" @click="navigateImage(+1)"></v-btn>
+        </v-row>
+      </v-container>
+    </v-img>
+  </v-dialog>
 
 </template>
 

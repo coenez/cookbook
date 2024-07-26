@@ -18,7 +18,7 @@ const gotoRecipe = (id) => {
   <v-card class="mb-8 cardOutline" border="thin" color="text" variant="outlined">
     <v-card-title class="text-primary cursor-pointer" @click="gotoRecipe(recipe.id)"> {{recipe.name}} </v-card-title>
     <v-row>
-      <v-col cols="2">
+      <v-col cols="3">
         <v-img v-if="recipe.images[0]?.path" :src="recipe.images[0].path" @click="gotoRecipe(recipe.id)" aspect-ratio="1" cover class="ml-4 mb-4 border-thin cursor-pointer">
           <template v-slot:placeholder>
             <div class="d-flex align-center justify-center fill-height">
@@ -34,7 +34,7 @@ const gotoRecipe = (id) => {
           </v-img>
         </v-card>
       </v-col>
-      <v-col cols="10">
+      <v-col cols="9">
         <RecipeSubTitle :recipe="recipe"/>
         <v-card-text class="mt-n4">
           {{textSummary}}
