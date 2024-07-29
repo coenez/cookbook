@@ -12,44 +12,61 @@ const applicationError = inject('applicationError');
 const data = ref([])
 const loading = ref(true)
 
-const loadData = (params) => {
-  fetchData(getConfig('urls.recipe.list'), params, applicationError).then((result)=>{
+const lastOffset = ref(0)
+const pageSize = 5
+
+const activeParams = ref(null)
+const defaultParams = {
+  limit: pageSize,
+  offset: lastOffset.value,
+  orderBy: 'created|DESC'
+}
+
+const loadData = () => {
+  activeParams.value.offset = lastOffset.value
+
+  fetchData(getConfig('urls.recipe.list'), {params: activeParams.value}, applicationError).then((result) => {
     loading.value = false
     data.value = result.data
   });
 }
 
-loadData({
-  params: {
-    orderBy:  'created|DESC'
-  }
-})
+const loadOnScroll = ({ done }) => {
+  activeParams.value.offset = lastOffset.value
+
+  fetchData(getConfig('urls.recipe.list'), {params: activeParams.value}, applicationError).then((result) => {
+    loading.value = false
+    if (result.data.length) {
+      result.data.forEach((row) => {
+        data.value.push(row)
+      })
+      lastOffset.value += pageSize
+      done('ok')
+    } else {
+      done('empty')
+    }
+  });
+}
+
+if (!activeParams.value) {
+  activeParams.value = defaultParams
+}
 
 //watch local searchterm change to trigger a reload
 watch(localSearchTerm, debounce(async () => {
   loading.value = true
   data.value = [];
-  let params = {
-    params: {
-      search: localSearchTerm.value,
-      orderBy:  'created|DESC'
-    }
-  }
-  loadData(params)
+  lastOffset.value = 0
+  activeParams.value.search = localSearchTerm.value
+  loadData()
 }, 500));
 
 //watch filters to trigger a reload
 watch(filters, () => {
   loading.value = true
   data.value = [];
-  let params = {
-    params: {
-      filters: JSON.stringify(filters.value),
-      orderBy:  'created|DESC'
-    }
-  }
-
-  loadData(params)
+  lastOffset.value = 0
+  activeParams.value.filters = JSON.stringify(filters.value)
 });
 
 </script>
@@ -64,13 +81,17 @@ watch(filters, () => {
       app
   />
   <v-card flat>
-    <v-card-title class="text-secondary text-h4">Recepten</v-card-title>
+    <v-card-title class="text-secondary text-h5">Recepten</v-card-title>
     <v-card-text>
       <div class="text-center">
         <v-progress-circular class="mx-auto" v-if="loading" size="100" width="10" color="primary" indeterminate/>
       </div>
 
-      <RecipeSummary v-for="recipe in data" :recipe="recipe"></RecipeSummary>
+      <v-infinite-scroll :items="data" :onLoad="loadOnScroll">
+        <RecipeSummary v-for="(recipe, index) in data" :key="recipe.id" :recipe="recipe" :class="index % 2 !== 0 ? 'bg-grey-lighten-4' : ''"></RecipeSummary>
+        <div><br/><br/></div>
+      </v-infinite-scroll>
+
     </v-card-text>
   </v-card>
 </template>

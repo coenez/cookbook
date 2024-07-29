@@ -15,12 +15,12 @@ class RecipeIngredient
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Recipe::class)]
+    #[ORM\ManyToOne(targetEntity: Recipe::class, inversedBy: 'recipeIngredients')]
     #[ORM\JoinColumn(name: 'recipe_id', referencedColumnName: 'id', nullable: false)]
     #[Ignore]
     private Recipe $recipe;
 
-    #[ORM\ManyToOne(targetEntity: Ingredient::class)]
+    #[ORM\ManyToOne(targetEntity: Ingredient::class, inversedBy: 'recipeIngredients')]
     #[ORM\JoinColumn(name: 'ingredient_id', referencedColumnName: 'id', nullable: false)]
     private Ingredient $ingredient;
 

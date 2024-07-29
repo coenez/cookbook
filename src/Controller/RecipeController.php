@@ -15,12 +15,13 @@ class RecipeController extends BaseController
     public function list(RecipeRepository $recipeRepository, Request $request): Response
     {
         $filters = $request->get('filters');
+        $params = $this->extractFromRequest($request, ['search', 'orderBy', 'limit', 'offset']);
+        extract($params);
+
         if ($filters) {
-            return $this->json($recipeRepository->findByFilters(json_decode($filters)));
+            return $this->json($recipeRepository->findByFilters(json_decode($filters), $limit, $offset));
         } else {
-            $params = $this->extractFromRequest($request, ['search', 'orderBy', 'limit', 'offset']);
-            extract($params);
-            return $this->json($recipeRepository->listBy($search ?? '', $orderBy));
+            return $this->json($recipeRepository->listBy($search ?? '', $orderBy, $limit, $offset));
         }
     }
 

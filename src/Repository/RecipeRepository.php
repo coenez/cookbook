@@ -29,7 +29,6 @@ class RecipeRepository extends ServiceEntityRepository
 
         $query->innerJoin('t.category', 'c')->addSelect('c');
         $query->leftJoin('t.images', 'i')->addSelect('i');
-        $query->leftJoin('t.labels', 'l')->addSelect('l');
 
         return $query->getQuery()->getResult();
     }
@@ -51,13 +50,10 @@ class RecipeRepository extends ServiceEntityRepository
             ->getSingleResult();
     }
 
-    public function findByFilters(object $filters): array
+    public function findByFilters(object $filters, int $limit =0, int $offset=0): array
     {
         $query = $this->createQueryBuilder('r');
-
         $query->innerJoin('r.category', 'c')->addSelect('c');
-        $query->leftJoin('r.labels', 'rl')->addSelect('rl');
-        $query->innerJoin('r.recipeIngredients', 'ri')->addSelect('ri');
         $query->leftJoin('r.images', 'i')->addSelect('i');
 
         if (!empty($filters->category)) {
@@ -66,14 +62,23 @@ class RecipeRepository extends ServiceEntityRepository
         }
 
         if (!empty($filters->labels)) {
+            $query->leftJoin('r.labels', 'rl')->addSelect('rl');
             $query->andWhere('rl.id IN (:labels)')
                 ->setParameter('labels', array_column($filters->labels, 'id'));
         }
 
         if (!empty($filters->ingredients)) {
+            $query->innerJoin('r.recipeIngredients', 'ri')->addSelect('ri');
             $query->andWhere('ri.ingredient IN (:ingredients)')
                 ->setParameter('ingredients', array_column($filters->ingredients, 'id'));
         }
+        if ($limit) {
+            $query->setMaxResults($limit);
+        }
+        if ($offset) {
+            $query->setFirstResult($offset);
+        }
+
         $query->orderBy('r.created', 'DESC');
         return $query->getQuery()->getResult();
     }

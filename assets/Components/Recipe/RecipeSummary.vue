@@ -16,7 +16,7 @@ const gotoRecipe = (id) => {
 
 <template>
   <v-card class="mb-8 cardOutline" border="thin" color="text" variant="outlined">
-    <v-card-title class="text-primary cursor-pointer" @click="gotoRecipe(recipe.id)"> {{recipe.name}} </v-card-title>
+    <v-card-title class="text-primary text-h5 cursor-pointer" @click="gotoRecipe(recipe.id)"> {{recipe.name}} </v-card-title>
     <v-row>
       <v-col cols="3">
         <v-img v-if="recipe.images[0]?.path" :src="recipe.images[0].path" @click="gotoRecipe(recipe.id)" aspect-ratio="1" cover class="ml-4 mb-4 border-thin cursor-pointer">

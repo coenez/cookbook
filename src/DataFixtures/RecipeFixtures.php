@@ -33,7 +33,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
 
         $this->faker = Faker\Factory::create();
 
-        for($i = 0; $i < $this->faker->numberBetween(10, 20); $i++) {
+        for($i = 0; $i < $this->faker->numberBetween(20, 30); $i++) {
             $title = $this->faker->word();
             $recipe = new Recipe();
             $recipe->setName($title);
