@@ -67,6 +67,7 @@ watch(filters, () => {
   data.value = [];
   lastOffset.value = 0
   activeParams.value.filters = JSON.stringify(filters.value)
+  loadData()
 });
 
 </script>
