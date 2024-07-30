@@ -96,10 +96,6 @@ watch(filters, () => {
   <v-card flat>
     <v-card-title class="text-secondary text-h5">Recepten</v-card-title>
     <v-card-text>
-      <div class="text-center">
-        <v-progress-circular class="mx-auto" v-if="loading" size="100" width="10" color="primary" indeterminate/>
-      </div>
-
       <v-infinite-scroll :items="data" :onLoad="loadOnScroll">
         <RecipeSummary v-for="(recipe, index) in data" :key="recipe.id" :recipe="recipe" :class="index % 2 !== 0 ? 'bg-grey-lighten-4' : ''"></RecipeSummary>
         <div><br/><br/></div>

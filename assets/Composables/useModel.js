@@ -49,6 +49,13 @@ const models = {
         id: null,
         name: '',
         path: ''
+    },
+    user: {
+        id: null,
+        email: '',
+        name: null,
+        username: '',
+        password: ''
     }
 };
 

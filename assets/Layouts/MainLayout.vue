@@ -6,7 +6,7 @@
     show: false,
     type: 'success',
     title: '',
-    text: ''
+    text: '',
   });
 
   provide('flash', flash)
@@ -29,7 +29,6 @@
           :text="flash.text"
           :title="flash.title"
           :type="flash.type"
-          color="primary"
           variant="outlined"
       ></v-alert>
       <RouterView :key="$route.fullPath" />

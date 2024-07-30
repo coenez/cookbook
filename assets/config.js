@@ -1,5 +1,10 @@
 export const config = {
   urls: {
+    main: {
+      login: 'login',
+      logout: 'logout',
+      checkCurrentUser: 'checkcurrentuser',
+    },
     category: {
       list: 'category/list',
       save: 'category/save',

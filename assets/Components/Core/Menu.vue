@@ -2,6 +2,7 @@
   import {ref, inject, computed} from "vue";
   import router from "../../router";
   import Filter from "./Filter.vue";
+  import axios from "axios";
 
   const showMainNavDrawer = ref(false)
   const globalSearchTerm = inject('globalSearchTerm')
@@ -16,6 +17,15 @@
   const showFilterIcon = computed(() => {
     return router.currentRoute.value.name === 'recipeList'
   })
+
+  const showUserDrawer = ref(false)
+  const currentUser = inject('currentUser')
+
+  const logout = () => {
+    axios.post(getConfig('urls.main.logout')).then(response => {
+      currentUser.value = null
+    })
+  }
 
 </script>
 
@@ -36,7 +46,7 @@
 
     <v-btn v-if="showSearchIcon" @click.stop="showSearchBar = !showSearchBar" icon="mdi-magnify"/>
     <v-btn v-if="showFilterIcon" @click.stop="showFilterDrawer = !showFilterDrawer" icon="mdi-filter"/>
-    <v-btn icon="mdi-account"/>
+    <v-btn icon="mdi-account" @click.stop="showUserDrawer = !showUserDrawer"/>
   </v-app-bar>
 
   <v-navigation-drawer v-model="showMainNavDrawer" location="left" temporary>
@@ -51,6 +61,15 @@
         </v-list-item>
       </div>
 
+    </v-list>
+  </v-navigation-drawer>
+
+  <v-navigation-drawer v-model="showUserDrawer" location="right" temporary>
+    <v-list>
+      <v-list-item :title="currentUser.name" prepend-icon="mdi-account" class="text-secondary"></v-list-item>
+    </v-list>
+    <v-list nav>
+        <v-list-item prepend-icon="mdi-logout" title="Uitloggen" @click="logout" />
     </v-list>
   </v-navigation-drawer>
 
