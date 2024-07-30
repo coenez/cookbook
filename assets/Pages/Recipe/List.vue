@@ -31,6 +31,8 @@ const loadData = () => {
   });
 }
 
+let infiniteScrollStateHandler;
+
 const loadOnScroll = ({ done }) => {
   activeParams.value.offset = lastOffset.value
 
@@ -44,6 +46,9 @@ const loadOnScroll = ({ done }) => {
       done('ok')
     } else {
       done('empty')
+
+      //store the infinite scroll state so we can manipulate it on a reset, its a fat hack but it is a bug in the component so what am i supposed to do?!
+      infiniteScrollStateHandler = done;
     }
   });
 }
@@ -58,7 +63,11 @@ watch(localSearchTerm, debounce(async () => {
   data.value = [];
   lastOffset.value = 0
   activeParams.value.search = localSearchTerm.value
+
+  //reset the infinite scroll state, its a fat hack but it is a bug in the component so what am i supposed to do?!
+  infiniteScrollStateHandler('ok');
   loadData()
+
 }, 500));
 
 //watch filters to trigger a reload
@@ -67,6 +76,9 @@ watch(filters, () => {
   data.value = [];
   lastOffset.value = 0
   activeParams.value.filters = JSON.stringify(filters.value)
+
+  //reset the infinite scroll state, its a fat hack but it is a bug in the component so what am i supposed to do?!
+  infiniteScrollStateHandler('ok');
   loadData()
 });
 
