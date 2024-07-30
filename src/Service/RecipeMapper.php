@@ -88,7 +88,7 @@ class RecipeMapper {
         //labels
         if (count($recipeDto->labels)) {
             foreach($recipeDto->labels as $label) {
-                $foundLabel = $this->labelRepository->find($label->id);
+                $foundLabel = $this->labelRepository->find($label->id ?? $label);
                 $recipe->addLabel($foundLabel);
             }
         }
