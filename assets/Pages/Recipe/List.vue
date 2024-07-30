@@ -65,7 +65,9 @@ watch(localSearchTerm, debounce(async () => {
   activeParams.value.search = localSearchTerm.value
 
   //reset the infinite scroll state, its a fat hack but it is a bug in the component so what am i supposed to do?!
-  infiniteScrollStateHandler('ok');
+  if (infiniteScrollStateHandler) {
+    infiniteScrollStateHandler('ok');
+  }
   loadData()
 
 }, 500));
@@ -78,7 +80,9 @@ watch(filters, () => {
   activeParams.value.filters = JSON.stringify(filters.value)
 
   //reset the infinite scroll state, its a fat hack but it is a bug in the component so what am i supposed to do?!
-  infiniteScrollStateHandler('ok');
+  if (infiniteScrollStateHandler) {
+    infiniteScrollStateHandler('ok');
+  }
   loadData()
 });
 

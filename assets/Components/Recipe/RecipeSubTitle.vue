@@ -1,6 +1,6 @@
 <script setup>
 import {calculateDuration} from "../../Composables/calculateDuration";
-import {inject, ref} from "vue";
+import {computed, inject, ref} from "vue";
 import ShareDialog from "../Core/ShareDialog.vue";
 import {useRouter} from "vue-router";
 
@@ -17,6 +17,7 @@ const duration = calculateDuration(props.recipe.duration);
 const showShareDialog = ref(false)
 
 const filters = inject('globalFilter');
+const currentUser = inject('currentUser');
 
 const redirect = (type, object) => {
   if (type === 'label') {
@@ -39,6 +40,10 @@ const editRecipe = (id) => {
 const changePortion = () => {
   emit('editPortion')
 }
+
+const allowEdit = computed(() => {
+  return (currentUser.value.id === props.recipe.user.id) || currentUser.value.roles.indexOf('ROLE_ADMIN') !== -1
+})
 </script>
 
 <template>
@@ -46,7 +51,7 @@ const changePortion = () => {
     <span class="cursor-pointer" @click="redirect('category', recipe.category)">{{recipe.category.name}}</span>
     <v-icon icon="mdi-clock" class="ml-2"/> {{duration}}
     <v-icon icon="mdi-account-group" class="ml-2" @click="changePortion"/> {{recipe.portions}}
-    <v-tooltip text="show user name here">
+    <v-tooltip :text="'Dit recept is van: '+recipe.user.name">
       <template v-slot:activator="{ props }">
         <v-icon icon="mdi-account" v-bind="props" class="ml-2 cursor-pointer"/>
       </template>
@@ -56,7 +61,7 @@ const changePortion = () => {
         <v-icon icon="mdi-share" v-bind="props" @click="showShareDialog = !showShareDialog" class="ml-2 cursor-pointer"/>
       </template>
     </v-tooltip>
-    <v-tooltip text="Bewerk dit recept">
+    <v-tooltip v-if="allowEdit" text="Bewerk dit recept">
       <template v-slot:activator="{ props }">
         <v-icon icon="mdi-pencil" v-bind="props" @click="editRecipe(recipe.id)" class="ml-2 cursor-pointer"/>
       </template>

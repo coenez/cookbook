@@ -1,6 +1,7 @@
 <script setup>
 import RecipeSubTitle from "./RecipeSubTitle.vue";
 import {useRouter} from "vue-router";
+import {computed, inject} from "vue";
 
 const props = defineProps({
   recipe: Object,
@@ -12,6 +13,11 @@ const textSummary = props.recipe.preparation.slice(0, 200) + '...'
 const gotoRecipe = (id) => {
   router.push({name:'recipeView', params: {id:id}});
 }
+
+const currentUser = inject('currentUser');
+const allowEdit = computed(() => {
+  return (currentUser.value.id === props.recipe.user.id) || currentUser.value.roles.indexOf('ROLE_ADMIN') !== -1
+})
 </script>
 
 <template>
@@ -47,6 +53,7 @@ const gotoRecipe = (id) => {
               variant="text"
           ></v-btn>
           <v-btn
+              v-if="allowEdit"
               :to="{name:'recipeEdit', params: {id:recipe.id}}"
               color="secundary"
               text="Bewerk recept"
