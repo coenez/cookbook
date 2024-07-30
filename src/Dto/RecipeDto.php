@@ -6,6 +6,7 @@ class RecipeDto extends AbstractDto {
     public ?int $id;
     public string $name;
     public object $category;
+    public \App\Entity\User $user;
     public int $duration;
     public int $portions;
     public string $preparation;

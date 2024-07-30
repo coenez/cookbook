@@ -28,6 +28,7 @@ class RecipeRepository extends ServiceEntityRepository
         $query = $this->getFindBySearchAndSortQuery($search, $orderBy, $limit, $offset);
 
         $query->innerJoin('t.category', 'c')->addSelect('c');
+        $query->innerJoin('t.user', 'u')->addSelect('u');
         $query->leftJoin('t.images', 'i')->addSelect('i');
 
         return $query->getQuery()->getResult();
@@ -38,6 +39,8 @@ class RecipeRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('r');
         return $query->innerJoin('r.category', 'c')
             ->addSelect('c')
+            ->innerJoin('r.user', 'u')
+            ->addSelect('u')
             ->leftJoin('r.images', 'i')
             ->addSelect('i')
             ->leftJoin('r.labels', 'l')
@@ -54,6 +57,7 @@ class RecipeRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('r');
         $query->innerJoin('r.category', 'c')->addSelect('c');
+        $query->innerJoin('r.user', 'u')->addSelect('u');
         $query->leftJoin('r.images', 'i')->addSelect('i');
 
         if (!empty($filters->category)) {

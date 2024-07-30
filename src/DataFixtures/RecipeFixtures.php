@@ -19,6 +19,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
         private readonly LabelRepository $labelRepository,
+        private readonly UserRepository $userRepository,
     ){}
 
     public function getDependencies(): array
@@ -30,6 +31,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
     {
         $labels = $this->labelRepository->findAll();
         $categories = $this->categoryRepository->findAll();
+        $users = $this->userRepository->findAll();
 
         $this->faker = Faker\Factory::create();
 
@@ -37,6 +39,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
             $title = $this->faker->word();
             $recipe = new Recipe();
             $recipe->setName($title);
+            $recipe->setUser($this->faker->randomElement($users));
             $recipe->setCategory($this->faker->randomElement($categories));
             $recipe->setPreparation($this->faker->text(500));
             $recipe->setDuration($this->faker->numberBetween(15, 120));

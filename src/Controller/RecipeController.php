@@ -52,6 +52,7 @@ class RecipeController extends BaseController
             $recipe->images[] = (object)['id'=>null, 'name' => $info['filename'], 'path' => $path.'/'.$newFileName];
         }
 
+        $recipe->user = $request->getUser();
         $recipeDto = new RecipeDto($recipe);
 
         return $this->json($recipeMapper->save($recipeDto));

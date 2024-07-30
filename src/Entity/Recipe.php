@@ -50,6 +50,10 @@ class Recipe
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'recipe', orphanRemoval: true)]
     private Collection $images;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->labels = new ArrayCollection();
@@ -189,6 +193,18 @@ class Recipe
                 $image->setRecipe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

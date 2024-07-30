@@ -73,15 +73,17 @@ class RecipeMapper {
 
         //basics
         $recipe->setName($recipeDto->name);
+        $recipe->setUser($recipeDto->user);
         $recipe->setDuration($recipeDto->duration);
         $recipe->setPortions($recipeDto->portions);
         $recipe->setPreparation($recipeDto->preparation);
 
         //category
-        if ($recipeDto->category) {
-            $category = $this->categoryRepository->find($recipeDto->category->id);
-            $recipe->setCategory($category);
+        if (!$recipeDto->category) {
+            throw new NotAcceptableHttpException('Cannot save this recipe. A recipe requires a category');
         }
+        $category = $this->categoryRepository->find($recipeDto->category->id);
+        $recipe->setCategory($category);
 
         //labels
         if (count($recipeDto->labels)) {
