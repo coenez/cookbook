@@ -21,6 +21,7 @@ class IngredientController extends BaseController
     }
 
     #[Route('/ingredient/save', name: 'app_ingredient_save')]
+    #[IsGranted('ROLE_ADMIN')]
     public function save(IngredientRepository $ingredientRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $request = $this->convertJsonPayload($request);

@@ -20,6 +20,7 @@ class LabelController extends BaseController
     }
 
     #[Route('/label/save', name: 'app_label_save')]
+    #[IsGranted('ROLE_ADMIN')]
     public function save(LabelRepository $labelRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $data = $request->getPayload();

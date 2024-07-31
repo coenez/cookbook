@@ -20,6 +20,7 @@ class CategoryController extends BaseController
     }
 
     #[Route('/category/save', name: 'app_category_save')]
+    #[IsGranted('ROLE_ADMIN')]
     public function save(CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $data = $request->getPayload();

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Dto\RecipeDto;
+use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
 use App\Service\RecipeMapper;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,13 +37,20 @@ class RecipeController extends BaseController
     }
 
     #[Route('/recipe/save', name: 'app_recipe_save')]
-    public function save(Request $request, RecipeMapper $recipeMapper)
+    public function save(Request $request, RecipeMapper $recipeMapper, RecipeRepository $recipeRepository)
     {
         $files = $request->files->all()['files'] ?? [];
         $dir = $this->getParameter('images_dir');
         $path = $this->getParameter('images_path');
 
         $recipe = json_decode($request->getPayload()->get('recipe'));
+
+        if ($recipe->id) {
+            $existing = $recipeRepository->get($recipe->id);
+            if (($existing->getUser()->getId() !== $this->getUser()->getId()) && !$this->isGranted('ROLE_ADMIN')) {
+                throw $this->createAccessDeniedException('You are not allowed to edit this recipe');
+            }
+        }
 
         //process images and prepare image structure
         foreach($files as $file) {

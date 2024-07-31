@@ -20,6 +20,7 @@ class UnitController extends BaseController
     }
 
     #[Route('/unit/save', name: 'app_unit_save')]
+    #[IsGranted('ROLE_ADMIN')]
     public function save(UnitRepository $unitRepository, Request $request, EntityManagerInterface $entityManager)
     {
         $data = $request->getPayload();

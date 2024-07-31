@@ -29,7 +29,6 @@ class RecipeMapper {
         private readonly RecipeIngredientRepository $recipeIngredientRepository,
         private readonly IngredientRepository $ingredientRepository,
         private readonly UnitRepository $unitRepository,
-        private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -51,6 +50,7 @@ class RecipeMapper {
                 $preservedIds = array_filter(array_column($recipeDto->images, 'id'));
                 foreach($recipe->getImages() as $image) {
                     if (!in_array($image->getId(), $preservedIds)) {
+                        unlink($image->getPath());
                         $recipe->removeImage($image);
                     }
                 }
