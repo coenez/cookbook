@@ -9,7 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class IngredientController extends BaseController
 {
     #[Route('/ingredient/list', name: 'app_ingredient_list')]
@@ -39,12 +41,6 @@ class IngredientController extends BaseController
         $entityManager->persist($ingredient);
         $entityManager->flush();
 
-        return $this->json($ingredient);
-    }
-
-    #[Route('/ingredient/get/{id<\d>}', name: 'app_ingredient_get')]
-    public function get(Ingredient $ingredient): Response
-    {
         return $this->json($ingredient);
     }
 

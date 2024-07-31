@@ -8,7 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class CategoryController extends BaseController
 {
     #[Route('/category/list', name: 'app_category_list')]
@@ -30,12 +32,6 @@ class CategoryController extends BaseController
         $entityManager->persist($category);
         $entityManager->flush();
 
-        return $this->json($category);
-    }
-
-    #[Route('/category/get/{id<\d>}', name: 'app_category_get')]
-    public function get(Category $category): Response
-    {
         return $this->json($category);
     }
 
