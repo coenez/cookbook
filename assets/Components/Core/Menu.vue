@@ -24,6 +24,7 @@
   const logout = () => {
     axios.post(getConfig('urls.main.logout')).then(response => {
       currentUser.value = null
+      router.push({name:'recipeList'});
     })
   }
 

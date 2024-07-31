@@ -46,11 +46,11 @@ const login = async () => {
       variant="outlined"
   ></v-alert>
     <v-form ref="form" @submit.prevent="login">
-      <v-row justify="center">
+      <v-row justify="center" class="mt-10">
         <v-col cols="6">
           <v-card border="thin" variant="outlined">
-            <v-card-title class="text-secondary text-h4">CookBook login</v-card-title>
-            <v-text-field variant="outlined" color="primary" :rules="rules.required" class="ma-2" v-model="userData.username" label="E-mail" />
+            <v-card-title class="bg-primary" color="buttonText">CookBook login</v-card-title>
+            <v-text-field variant="outlined" color="primary" :rules="rules.required" class="ma-2 mt-4" v-model="userData.username" label="E-mail" />
             <v-text-field variant="outlined" type="password" color="primary" :rules="rules.required" class="ma-2" v-model="userData.password" label="Wachtwoord" />
             <v-card-actions>
               <v-btn variant="flat" base-color="primary" type="submit" >Inloggen</v-btn>
